@@ -1,6 +1,45 @@
 body {
-    background-color: mistyrose;
+    background-color: #b8c2e9;
+    color: #1fa81f;
+    font-family: Helvetica, Arial, sans-serif;
+}
+a {
+    color: aliceblue;
+    text-decoration: none;
+}
+main {
+    height: 100vh;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    justify-content: center;
+    align-items: center;
+}
+input {
+    width: 350px;
+    height: 40px;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+button {
+    border-radius: 8px;
+    border: none;
+    width: 180px;
+    height: 50px;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: 0;
+}
+button:hover {
+    background-color: #1fa81f;
+    color: aliceblue;
 }
 .error {
-    color: rebeccapurple;
+    color: rgb(153, 51, 51);
 }

@@ -11,12 +11,9 @@ export default class Login extends Component {
         // this.handleChange = this.handleChange.bind(this);
     }
     handleChange(e) {
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state", this.state)
-        );
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
     }
     handleSubmit() {
         // console.log("clicked on the button");
@@ -47,10 +44,13 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div className="form">
                 <h1>Login</h1>
                 <Link to="/">
                     <h1>Click here to Register!</h1>
+                </Link>
+                <Link to="/reset">
+                    <h1>Forgot your password?</h1>
                 </Link>
 
                 {this.state.error && (

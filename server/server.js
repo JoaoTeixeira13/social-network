@@ -3,10 +3,13 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const db = require("./db");
+const { sendEmail } = require("./ses.js");
 const cookieSession = require("cookie-session");
 const bcrypt = require("./bcrypt");
 const COOKIE_SECRET =
     process.env.COOKIE_SECRET || require("./secrets.json").COOKIE_SECRET;
+
+const cryptoRandomString = require("crypto-random-string");
 
 app.use(compression());
 app.use(express.json());
@@ -84,7 +87,7 @@ app.post("/registration", (req, res) => {
 
 app.post("/login", (req, res) => {
     if (req.body.email && req.body.password) {
-        db.loginVerification(req.body.email)
+        db.emailVerification(req.body.email)
 
             .then((result) => {
                 return bcrypt
@@ -114,6 +117,92 @@ app.post("/login", (req, res) => {
             error: true,
         });
     }
+});
+
+//forgot the password route
+
+app.post("/password/reset/start", (req, res) => {
+    db.emailVerification(req.body.email)
+        .then((result) => {
+            if (!result.rows.length) {
+                res.json({
+                    success: false,
+                    error: true,
+                });
+
+                console.log("no match");
+            } else {
+                console.log("we ave a match");
+
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+
+                db.saveCode(req.body.email, secretCode)
+                    .then(() => {
+                        sendEmail(secretCode, "Password Reset");
+                    })
+                    .then(res.json({ success: true }))
+                    .catch((err) => {
+                        console.log(
+                            "error in db. verifying user's email in ",
+                            err
+                        );
+                        res.json({
+                            success: false,
+                            error: true,
+                        });
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log("error in db. verifying user's email in ", err);
+            res.json({
+                success: false,
+                error: true,
+            });
+        });
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    db.findCode(req.body.email).then((results) => {
+        console.log("body to compare", req.body.code === results.rows[0].code);
+        if (req.body.code === results.rows[0].code) {
+            bcrypt
+                .hash(req.body.password)
+                .then(function (hash) {
+                    const hashedPassword = hash;
+
+                    // db.add user must be returned in order to be handled in the catch
+
+                    return db
+                        .updatePassword(hashedPassword, req.body.email)
+                        .then(() => {
+                            console.log("Inside updated Password");
+                            res.json({ success: true });
+                        })
+                        .catch((err) => {
+                            console.log("error in db social network ", err);
+                            res.json({
+                                success: false,
+                                error: true,
+                            });
+                        });
+                })
+                .catch((err) => {
+                    console.log("error in db socialnetwork ", err);
+                    res.json({
+                        success: false,
+                        error: true,
+                    });
+                });
+        } else {
+            res.json({
+                success: false,
+                error: true,
+            });
+        }
+    });
 });
 
 app.get("/logout", (req, res) => {
