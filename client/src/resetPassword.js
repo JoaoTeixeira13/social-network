@@ -17,7 +17,6 @@ export default class ResetPassword extends Component {
         });
     }
     verifyEmail() {
-
         fetch("/password/reset/start", {
             method: "POST",
             headers: {
@@ -46,7 +45,6 @@ export default class ResetPassword extends Component {
             });
     }
     newPassword() {
-
         fetch("/password/reset/verify", {
             method: "POST",
             headers: {
@@ -75,12 +73,12 @@ export default class ResetPassword extends Component {
             });
     }
     determineViewToRender() {
-        // this method determines what the render!
         if (this.state.view === 1) {
             return (
                 <div className="form">
                     <p>
-                        Please enter the email address with which you registered
+                        Please enter the email address with which you
+                        registered.
                     </p>
 
                     <input
@@ -96,6 +94,10 @@ export default class ResetPassword extends Component {
         } else if (this.state.view === 2) {
             return (
                 <div>
+                    <p>
+                        Please input the code you received via email and your
+                        new password.
+                    </p>
                     <input
                         type="text"
                         name="code"
@@ -112,7 +114,6 @@ export default class ResetPassword extends Component {
                 </div>
             );
         } else if (this.state.view === 3) {
-            // remember to also add a link to login ;)
             return (
                 <div>
                     <p>
@@ -129,7 +130,7 @@ export default class ResetPassword extends Component {
             <div className="form">
                 <h1> Password Reset</h1>
                 <Link to="/login">
-                    <h1>Back to Login!</h1>
+                    <h1>Back to Login</h1>
                 </Link>
 
                 {this.state.error && (

@@ -43,3 +43,9 @@ button:hover {
 .error {
     color: rgb(153, 51, 51);
 }
+
+/* Welcome section */
+
+.welcomeHero {
+    font-size: 6rem;
+}

@@ -16,7 +16,7 @@ export default class Registration extends Component {
         });
     }
     handleSubmit() {
-        // console.log("clicked on the button");
+
         fetch("/registration", {
             method: "POST",
             headers: {
@@ -47,11 +47,11 @@ export default class Registration extends Component {
             <div className="form">
                 <h1>Register</h1>
                 <Link to="/login">
-                    <h1>Click here to Log in!</h1>
+                    <h1>Click here to Log in.</h1>
                 </Link>
 
                 {this.state.error && (
-                    <p className="error">oooops! something went wrong</p>
+                    <p className="error">oooops! something went wrong. Please retry.</p>
                 )}
                 <input
                     type="text"

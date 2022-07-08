@@ -55,7 +55,6 @@ app.post("/registration", (req, res) => {
                         hashedPassword
                     )
                     .then((result) => {
-                        console.log("Inside addUser");
                         req.session.userId = result.rows[0].id;
 
                         res.json({ success: true });
@@ -102,6 +101,13 @@ app.post("/login", (req, res) => {
                                 error: true,
                             });
                         }
+                    })
+                    .catch((err) => {
+                        console.log("error in db. loging user in ", err);
+                        res.json({
+                            success: false,
+                            error: true,
+                        });
                     });
             })
             .catch((err) => {
@@ -119,7 +125,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-//forgot the password route
+//password reset
 
 app.post("/password/reset/start", (req, res) => {
     db.emailVerification(req.body.email)
@@ -129,11 +135,7 @@ app.post("/password/reset/start", (req, res) => {
                     success: false,
                     error: true,
                 });
-
-                console.log("no match");
             } else {
-                console.log("we ave a match");
-
                 const secretCode = cryptoRandomString({
                     length: 6,
                 });
@@ -165,44 +167,51 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    db.findCode(req.body.email).then((results) => {
-        console.log("body to compare", req.body.code === results.rows[0].code);
-        if (req.body.code === results.rows[0].code) {
-            bcrypt
-                .hash(req.body.password)
-                .then(function (hash) {
-                    const hashedPassword = hash;
 
-                    // db.add user must be returned in order to be handled in the catch
+    if (req.body.code && req.body.password) {
 
-                    return db
-                        .updatePassword(hashedPassword, req.body.email)
-                        .then(() => {
-                            console.log("Inside updated Password");
-                            res.json({ success: true });
-                        })
-                        .catch((err) => {
-                            console.log("error in db social network ", err);
-                            res.json({
-                                success: false,
-                                error: true,
+        db.findCode(req.body.email).then((results) => {
+            if (req.body.code === results.rows[0].code) {
+                bcrypt
+                    .hash(req.body.password)
+                    .then(function (hash) {
+                        const hashedPassword = hash;
+
+                        // db.update Password must be returned in order to be handled in the catch
+
+                        return db
+                            .updatePassword(hashedPassword, req.body.email)
+                            .then(() => {
+                                res.json({ success: true });
+                            })
+                            .catch((err) => {
+                                console.log("error in db social network ", err);
+                                res.json({
+                                    success: false,
+                                    error: true,
+                                });
                             });
+                    })
+                    .catch((err) => {
+                        console.log("error in db socialnetwork ", err);
+                        res.json({
+                            success: false,
+                            error: true,
                         });
-                })
-                .catch((err) => {
-                    console.log("error in db socialnetwork ", err);
-                    res.json({
-                        success: false,
-                        error: true,
                     });
+            } else {
+                res.json({
+                    success: false,
+                    error: true,
                 });
-        } else {
-            res.json({
-                success: false,
-                error: true,
-            });
-        }
-    });
+            }
+        });
+    } else {
+        res.json({
+            success: false,
+            error: true,
+        });
+    }
 });
 
 app.get("/logout", (req, res) => {
