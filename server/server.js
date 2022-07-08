@@ -28,6 +28,8 @@ app.get("/user/id.json", function (req, res) {
     });
 });
 
+//registration route
+
 app.post("/registration", (req, res) => {
     if (
         req.body.first &&
@@ -77,6 +79,43 @@ app.post("/registration", (req, res) => {
         });
     }
 });
+
+//login route
+
+app.post("/login", (req, res) => {
+    if (req.body.email && req.body.password) {
+        db.loginVerification(req.body.email)
+
+            .then((result) => {
+                return bcrypt
+                    .compare(req.body.password, result.rows[0].password)
+                    .then(function (hashComparison) {
+                        if (hashComparison) {
+                            req.session.userId = result.rows[0].id;
+                            res.json({ success: true });
+                        } else {
+                            res.json({
+                                success: false,
+                                error: true,
+                            });
+                        }
+                    });
+            })
+            .catch((err) => {
+                console.log("error in db. loging user in ", err);
+                res.json({
+                    success: false,
+                    error: true,
+                });
+            });
+    } else {
+        res.json({
+            success: false,
+            error: true,
+        });
+    }
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");

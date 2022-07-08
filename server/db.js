@@ -22,3 +22,12 @@ module.exports.addUser = (firstName, lastName, email, password) => {
     const param = [firstName, lastName, email, password];
     return db.query(q, param);
 };
+
+module.exports.loginVerification = (email) => {
+    return db.query(
+        `SELECT users.*
+    FROM users
+    WHERE email = $1`,
+        [email]
+    );
+};

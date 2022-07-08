@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class Registration extends Component {
+export default class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -20,7 +20,7 @@ export default class Registration extends Component {
     }
     handleSubmit() {
         // console.log("clicked on the button");
-        fetch("/registration", {
+        fetch("/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,26 +48,15 @@ export default class Registration extends Component {
     render() {
         return (
             <div>
-                <h1>Register</h1>
-                <Link to="/login">
-                    <h1>Click here to Log in!</h1>
+                <h1>Login</h1>
+                <Link to="/">
+                    <h1>Click here to Register!</h1>
                 </Link>
 
                 {this.state.error && (
                     <p className="error">oooops! something went wrong</p>
                 )}
-                <input
-                    type="text"
-                    name="first"
-                    placeholder="first"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    type="text"
-                    name="last"
-                    placeholder="last"
-                    onChange={(e) => this.handleChange(e)}
-                />
+
                 <input
                     type="email"
                     name="email"
@@ -80,7 +69,7 @@ export default class Registration extends Component {
                     placeholder="password"
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button onClick={() => this.handleSubmit()}>Register</button>
+                <button onClick={() => this.handleSubmit()}>Login</button>
             </div>
         );
     }
