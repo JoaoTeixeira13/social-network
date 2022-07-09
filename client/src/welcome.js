@@ -6,9 +6,15 @@ import ResetPassword from "./resetPassword";
 export default function Welcome() {
     return (
         <div id="welcome">
-            <h1 className="welcomeHero">Welcome!</h1>
+            <div className="welcome-hero">
+                <h1>
+                    <span className="witches">Witches</span> <br /> & <br />
+                    <span className="writers">Writers</span> <br /> & <br />
+                    <span className="webdevs">WebDevs</span>
+                </h1>
+            </div>
             <BrowserRouter>
-                <div>
+                <div className="welcome-paths">
                     <Route exact path="/">
                         <Registration />
                     </Route>

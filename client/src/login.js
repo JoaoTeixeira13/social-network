@@ -43,15 +43,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="form">
-                <h1>Login</h1>
-                <Link to="/">
-                    <h1>Click here to Register</h1>
-                </Link>
-                <Link to="/reset">
-                    <h1>Forgot your password?</h1>
-                </Link>
-
+            <div className="form login">
                 {this.state.error && (
                     <p className="error">
                         oooops! something went wrong.Please retry.
@@ -71,6 +63,12 @@ export default class Login extends Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button onClick={() => this.handleSubmit()}>Login</button>
+                <Link to="/reset">
+                    <h3>Forgot your password?</h3>
+                </Link>
+                <Link to="/" className="registration-link">
+                    <h2>Don't have an account yet? You can register here.</h2>
+                </Link>
             </div>
         );
     }

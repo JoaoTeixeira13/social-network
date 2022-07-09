@@ -1,11 +1,16 @@
 body {
-    background-color: #b8c2e9;
-    color: #1fa81f;
+    background-color: #e17537;
+    color: #adedad;
     font-family: Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
 }
 a {
-    color: aliceblue;
     text-decoration: none;
+}
+
+p {
+    font-size: 1.2rem;
 }
 main {
     height: 100vh;
@@ -15,37 +20,105 @@ main {
     flex-direction: column;
     width: 350px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    height: 50vh;
+    margin-top: auto;
+    margin-bottom: 20%;
 }
 input {
     width: 350px;
     height: 40px;
     margin-bottom: 15px;
     font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    background-color: #f6ecea;
+    outline: 0;
+    color: #a11d16;
 }
+input::placeholder {
+    color: #a11d16;
+}
+
 button {
     border-radius: 8px;
     border: none;
-    width: 180px;
+    width: 350px;
     height: 50px;
     font-size: 22px;
+    margin: 10px 0;
     font-weight: bold;
-    margin: 10px;
     font-family: Helvetica, Arial, sans-serif;
     cursor: pointer;
     text-transform: uppercase;
     outline: 0;
+    background-color: #e14f06;
+    color: #f6ecea;
 }
 button:hover {
-    background-color: #1fa81f;
-    color: aliceblue;
+    background-color: #a11d16;
 }
+
 .error {
     color: rgb(153, 51, 51);
+    font-weight: bolder;
 }
 
 /* Welcome section */
+#welcome {
+    display: flex;
+    width: 100%;
+}
 
-.welcomeHero {
-    font-size: 6rem;
+.welcome-hero {
+    width: 60vw;
+    font-size: 4rem;
+    line-height: 0.95;
+}
+.witches:hover {
+    color: #1a0201;
+}
+.writers:hover {
+    color: #f6ecea;
+}
+.webdevs:hover {
+    color: #f6ecea;
+
+    -webkit-animation: textPulsar 1.2s ease-in-out infinite alternate;
+    -moz-animation: textPulsar 1.2s ease-in-out infinite alternate;
+    animation: textPulsar 1.2s ease-in-out infinite alternate;
+}
+@keyframes textPulsar {
+    from {
+        text-shadow: 0 0 2px #fff, 0 0 6px #f0f, 0 0 10px #0ff, 0 0 12px #e60073;
+    }
+    to {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff4da6, 0 0 14px #ff4da6,
+            0 0 16px #ff4da6;
+    }
+}
+
+.welcome-paths {
+    background-color: #adedad;
+    color: #e17537;
+    width: 40vw;
+}
+.welcome-paths a {
+    color: #e17537;
+}
+.welcome-paths a:hover {
+    color: #a11d16;
+}
+.welcome-hero,
+.welcome-paths {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* login */
+
+.registration-link {
+    margin-top: auto;
 }

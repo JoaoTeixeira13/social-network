@@ -128,15 +128,14 @@ export default class ResetPassword extends Component {
     render() {
         return (
             <div className="form">
-                <h1> Password Reset</h1>
-                <Link to="/login">
-                    <h1>Back to Login</h1>
-                </Link>
-
                 {this.state.error && (
                     <p className="error">oooops! something went wrong</p>
                 )}
                 {this.determineViewToRender()}
+
+                <Link to="/login">
+                    <h2>Back to Login</h2>
+                </Link>
             </div>
         );
     }

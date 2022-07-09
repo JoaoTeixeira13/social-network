@@ -16,7 +16,6 @@ export default class Registration extends Component {
         });
     }
     handleSubmit() {
-
         fetch("/registration", {
             method: "POST",
             headers: {
@@ -45,13 +44,10 @@ export default class Registration extends Component {
     render() {
         return (
             <div className="form">
-                <h1>Register</h1>
-                <Link to="/login">
-                    <h1>Click here to Log in.</h1>
-                </Link>
-
                 {this.state.error && (
-                    <p className="error">oooops! something went wrong. Please retry.</p>
+                    <p className="error">
+                        oooops! something went wrong. Please retry.
+                    </p>
                 )}
                 <input
                     type="text"
@@ -77,7 +73,12 @@ export default class Registration extends Component {
                     placeholder="password"
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button onClick={() => this.handleSubmit()}>Register</button>
+                <button onClick={() => this.handleSubmit()}>
+                    Create account
+                </button>
+                <Link to="/login" className="registration-link">
+                    <h2>Already registered? Click here to Log in.</h2>
+                </Link>
             </div>
         );
     }
