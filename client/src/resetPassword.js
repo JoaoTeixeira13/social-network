@@ -129,7 +129,9 @@ export default class ResetPassword extends Component {
         return (
             <div className="form">
                 {this.state.error && (
-                    <p className="error">oooops! something went wrong</p>
+                    <p className="error">
+                        Oooops! Something went wrong, please retry.
+                    </p>
                 )}
                 {this.determineViewToRender()}
 

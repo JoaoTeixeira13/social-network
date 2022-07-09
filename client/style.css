@@ -60,7 +60,7 @@ button:hover {
 }
 
 .error {
-    color: rgb(153, 51, 51);
+    color: #993333;
     font-weight: bolder;
 }
 
@@ -79,7 +79,7 @@ button:hover {
     color: #1a0201;
 }
 .writers:hover {
-    color: #f6ecea;
+    color: #e17537;
 }
 .webdevs:hover {
     color: #f6ecea;
