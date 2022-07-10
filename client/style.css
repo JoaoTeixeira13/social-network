@@ -101,17 +101,45 @@ button:hover {
 }
 
 /* conditionally rendered hero backgrounds: */
-.welcome-hero.witch-front {
+.witch-front {
     object-fit: cover;
-    background: url("/goya2.jpg");
+    background: url("/goya2.jpg") no-repeat;
+    animation: moveWitch 0.6s forwards;
 }
-.welcome-hero.writer-front {
-    object-fit: cover;
-    background: url("/nawal.jpg");
+@keyframes moveWitch {
+    from {
+        background-position: 0 300%;
+    }
+    to {
+        background-position: 0 0%;
+    }
 }
-.welcome-hero.webdev-front {
+
+.writer-front {
     object-fit: cover;
-    background: url("/mary-keller.png");
+    background: url("/nawal.jpg") no-repeat;
+    animation: moveWriter 0.6s forwards;
+}
+@keyframes moveWriter {
+    from {
+        background-position: 400% 0%;
+    }
+    to {
+        background-position: 0 0%;
+    }
+}
+.webdev-front {
+    object-fit: cover;
+    background: url("/mary-keller.png") no-repeat;
+    animation: moveWebdev 0.5s forwards;
+}
+@keyframes moveWebdev {
+    from {
+        background-position: -400% 0%;
+    }
+    to {
+        background-position: -20px 0%;
+    }
 }
 
 /* conditional transparency in hero text */
