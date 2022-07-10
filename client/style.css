@@ -75,6 +75,53 @@ button:hover {
     font-size: 4rem;
     line-height: 0.95;
 }
+
+.welcome-paths {
+    background-color: #adedad;
+    color: #e17537;
+    width: 40vw;
+}
+.welcome-paths a {
+    color: #e17537;
+}
+.welcome-paths a:hover {
+    color: #a11d16;
+}
+.welcome-hero,
+.welcome-paths {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* login */
+
+.registration-link {
+    margin-top: auto;
+}
+
+/* conditionally rendered hero backgrounds: */
+.welcome-hero.witch-front {
+    object-fit: cover;
+    background: url("/goya2.jpg");
+}
+.welcome-hero.writer-front {
+    object-fit: cover;
+    background: url("/nawal.jpg");
+}
+.welcome-hero.webdev-front {
+    object-fit: cover;
+    background: url("/mary-keller.png");
+}
+
+/* conditional transparency in hero text */
+
+.transparent-hero {
+    color: rgb(173 237 173 / 35%);
+}
+
+/* hover status */
+
 .witches:hover {
     color: #f6ecea;
 }
@@ -96,29 +143,4 @@ button:hover {
         text-shadow: 0 0 5px #fff, 0 0 10px #ff4da6, 0 0 14px #ff4da6,
             0 0 16px #ff4da6;
     }
-}
-
-.welcome-paths {
-    background-color: #adedad;
-    color: #e17537;
-    width: 40vw;
-}
-.welcome-paths a {
-    color: #e17537;
-}
-.welcome-paths a:hover {
-    color: #a11d16;
-}
-.welcome-hero,
-.welcome-paths {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-/* login */
-
-.registration-link {
-    margin-top: auto;
 }
