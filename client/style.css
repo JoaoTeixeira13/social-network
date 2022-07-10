@@ -76,13 +76,13 @@ button:hover {
     line-height: 0.95;
 }
 .witches:hover {
-    color: #1a0201;
+    color: #f6ecea;
 }
 .writers:hover {
     color: #e17537;
 }
 .webdevs:hover {
-    color: #f6ecea;
+    color: #f0cdef;
 
     -webkit-animation: textPulsar 1.2s ease-in-out infinite alternate;
     -moz-animation: textPulsar 1.2s ease-in-out infinite alternate;

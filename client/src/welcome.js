@@ -63,16 +63,24 @@ export default class Welcome extends Component {
                 <div
                     className="welcome-hero"
                     style={{
+                        objectFit: "cover",
                         background: this.witch
-                            ? "url('/witches.jpg')"
+                            ? "url('/goya2.jpg')"
                             : "" || this.writer
                             ? "url('/nawal.jpg')"
                             : "" || this.webdev
-                            ? "url('/webdev.jpg')"
+                            ? "url('/mary-keller.png')"
                             : "",
                     }}
                 >
-                    <h1>
+                    <h1
+                        style={{
+                            color:
+                                this.witch || this.writer || this.webdev
+                                    ? "rgb(173 237 173 / 35%)"
+                                    : "#adedad",
+                        }}
+                    >
                         <span
                             onMouseEnter={() => this.witchEnter()}
                             onMouseLeave={() => this.witchLeave()}
