@@ -20,15 +20,12 @@ export default class Welcome extends Component {
     }
     witchEnter() {
         this.witch = true;
-        (this.vanishWitch = false),
-            (this.vanishWriter = false),
-            (this.vanishWebdev = false),
-            this.setState({
-                witch: true,
-                vanishWitch: false,
-                vanishWriter: false,
-                vanishWebdev: false,
-            });
+        this.vanishWitch = false;
+        this.vanishWriter = false;
+        this.vanishWebdev = false;
+        this.setState({
+            witch: true,
+        });
     }
     witchLeave() {
         this.witch = false;
@@ -41,15 +38,12 @@ export default class Welcome extends Component {
     }
     writerEnter() {
         this.writer = true;
-        (this.vanishWitch = false),
-            (this.vanishWriter = false),
-            (this.vanishWebdev = false),
-            this.setState({
-                writer: true,
-                vanishWitch: false,
-                vanishWriter: false,
-                vanishWebdev: false,
-            });
+        this.vanishWitch = false;
+        this.vanishWriter = false;
+        this.vanishWebdev = false;
+        this.setState({
+            writer: true,
+        });
     }
     writerLeave() {
         this.writer = false;
@@ -62,15 +56,12 @@ export default class Welcome extends Component {
     }
     webdevEnter() {
         this.webdev = true;
-        (this.vanishWitch = false),
-            (this.vanishWriter = false),
-            (this.vanishWebdev = false),
-            this.setState({
-                webdev: true,
-                vanishWitch: false,
-                vanishWriter: false,
-                vanishWebdev: false,
-            });
+        this.vanishWitch = false;
+        this.vanishWriter = false;
+        this.vanishWebdev = false;
+        this.setState({
+            webdev: true,
+        });
     }
     webdevLeave() {
         this.webdev = false;

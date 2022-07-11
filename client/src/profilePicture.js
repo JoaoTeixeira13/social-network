@@ -1,4 +1,9 @@
-export default function ProfilePicture({ first, last, imageUrl }) {
+export default function ProfilePicture({
+    first,
+    last,
+    imageUrl,
+    modalCallback,
+}) {
     console.log("props info being passed down App: ", imageUrl);
 
     imageUrl = imageUrl || "/default.png";
@@ -9,7 +14,11 @@ export default function ProfilePicture({ first, last, imageUrl }) {
                 This is the profile picture component. My name is {first} and my
                 last name is {last}.
             </h2>
-            <img src={imageUrl} alt="my pic" />
+            <img
+                onClick={() => modalCallback()}
+                src={imageUrl}
+                alt={first + last}
+            />
         </div>
     );
 }

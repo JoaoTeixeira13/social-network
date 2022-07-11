@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
+import Logo from "./logo";
 
 export default class App extends Component {
     constructor() {
@@ -31,15 +32,16 @@ export default class App extends Component {
         return (
             <div>
                 <h1>Hello from App</h1>
-                <img src="/logo.jpg" alt="logo" />
+                <Logo />
                 <ProfilePicture
                     first={this.state.first}
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}
+                    modalCallback={() => {
+                        this.toggleModal();
+                    }}
                 />
-                <h2 onClick={() => this.toggleModal()}>
-                    Click here to toggle uploader visibility
-                </h2>
+
                 {this.state.uploaderIsVisible && (
                     <Uploader methodInApp={this.methodInApp} />
                 )}
