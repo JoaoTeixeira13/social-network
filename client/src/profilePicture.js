@@ -4,7 +4,6 @@ export default function ProfilePicture({
     imageUrl,
     modalCallback,
 }) {
-
     imageUrl = imageUrl || "/default.png";
 
     return (
@@ -14,6 +13,7 @@ export default function ProfilePicture({
                 last name is {last}.
             </h2>
             <img
+                className="profilePicture"
                 onClick={() => modalCallback()}
                 src={imageUrl}
                 alt={first + last}

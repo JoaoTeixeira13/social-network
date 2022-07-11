@@ -212,7 +212,7 @@ button:hover {
             0 0 16px #ff4da6;
     }
 }
-/* logged in experience */
+/* logged in experience:modal*/
 .modalForm {
     display: flex;
     flex-direction: column;
@@ -231,4 +231,29 @@ button:hover {
     position: absolute;
     right: 5%;
     top: 5%;
+    cursor: pointer;
+}
+label {
+    border-radius: 2px;
+    border: none;
+    font-size: 22px;
+    margin: 10px;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: 0;
+    width: max-content;
+    text-align: center;
+    font-weight: normal;
+    height: 28px;
+    display: inline-block;
+}
+#input-tag {
+    display: none;
+}
+/* user profile */
+.profilePicture {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
 }

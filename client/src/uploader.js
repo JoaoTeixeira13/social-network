@@ -11,7 +11,6 @@ export default class Uploader extends Component {
 
     uploadProfilePic(e) {
         e.preventDefault();
-        
 
         fetch("/uploadProfilePic", {
             method: "POST",
@@ -19,14 +18,11 @@ export default class Uploader extends Component {
         })
             .then((res) => res.json())
             .then((data) => {
-                
                 this.props.settingProfilePic(data.payload.imageurl);
             })
             .catch((err) => {
                 console.log("error is ", err);
             });
-
-        
     }
     render() {
         return (
@@ -37,15 +33,17 @@ export default class Uploader extends Component {
                     className="modalForm"
                 >
                     {" "}
-                    <input
-                        name="image"
-                        type="file"
-                        accept="image/*"
-                        id="input-tag"
-                        required
-                    />
+                    <label htmlFor="input-tag">
+                        Browse
+                        <input
+                            name="image"
+                            type="file"
+                            accept="image/*"
+                            id="input-tag"
+                            required
+                        />
+                    </label>
                     <button>Submit</button>
-                    
                     <h2
                         onClick={() => this.props.modalCallback()}
                         className="closeModal"
