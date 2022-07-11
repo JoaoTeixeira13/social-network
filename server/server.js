@@ -10,6 +10,9 @@ const COOKIE_SECRET =
     process.env.COOKIE_SECRET || require("./secrets.json").COOKIE_SECRET;
 
 const cryptoRandomString = require("crypto-random-string");
+const multer = require("multer");
+const s3 = require("./s3");
+const uidSafe = require("uid-safe");
 
 app.use(compression());
 app.use(express.json());
@@ -167,9 +170,7 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-
     if (req.body.code && req.body.password) {
-
         db.findCode(req.body.email).then((results) => {
             if (req.body.code === results.rows[0].code) {
                 bcrypt
@@ -213,6 +214,52 @@ app.post("/password/reset/verify", (req, res) => {
         });
     }
 });
+
+//profile picture upload
+
+const storage = multer.diskStorage({
+    destination(req, file, callback) {
+        callback(null, "uploads");
+    },
+    filename(req, file, callback) {
+        uidSafe(24).then((randomString) => {
+            //keep the original file extention
+
+            // use extname method to be found on the core path library
+            callback(null, `${randomString}${path.extname(file.originalname)}`);
+        });
+    },
+});
+const uploader = multer({
+    storage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
+app.post(
+    "/uploadProfilePic",
+    uploader.single("image"),
+    s3.upload,
+    (req, res) => {
+        const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
+
+        if (url) {
+            db.uploadProfilePicture(url, req.session.userId)
+                .then((result) => {
+                    res.json({
+                        sucess: true,
+                        payload: result.rows[0], // how to handle the data?
+                    });
+                })
+                .catch((err) => {
+                    console.log("error is ", err);
+                });
+        } else {
+            console.log("invalid url");
+        }
+    }
+);
 
 app.get("/logout", (req, res) => {
     req.session = null;
