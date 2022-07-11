@@ -4,7 +4,6 @@ export default function ProfilePicture({
     imageUrl,
     modalCallback,
 }) {
-    console.log("props info being passed down App: ", imageUrl);
 
     imageUrl = imageUrl || "/default.png";
 

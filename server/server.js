@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 //fetch.start
 
-app.get("/user/id.json", function (req, res) {
+app.get("/user/id.json", (req, res) => {
     res.json({
         userId: req.session.userId,
     });
@@ -215,11 +215,32 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
+//fetch profile data
+
+app.get("/user", (req, res) => {
+
+    db.fetchProfile(req.session.userId)
+        .then((results) => {
+            const profile = results.rows[0];
+            res.json({
+                success: true,
+                profile,
+            });
+        })
+        .catch((err) => {
+            console.log("error in fetching user's profile ", err);
+            res.json({
+                success: false,
+                error: true,
+            });
+        });
+});
+
 //profile picture upload
 
 const storage = multer.diskStorage({
     destination(req, file, callback) {
-        callback(null, "uploads");
+        callback(null, path.join(__dirname, "uploads"));
     },
     filename(req, file, callback) {
         uidSafe(24).then((randomString) => {
@@ -249,7 +270,7 @@ app.post(
                 .then((result) => {
                     res.json({
                         sucess: true,
-                        payload: result.rows[0], // how to handle the data?
+                        payload: result.rows[0],
                     });
                 })
                 .catch((err) => {

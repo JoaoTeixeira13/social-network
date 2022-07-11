@@ -4,29 +4,55 @@ export default class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        console.log("props inside uploader are: ", props);
     }
     componentDidMount() {
         console.log("Uploader just mounted");
     }
-    methodInUploader(){
-        //fetch post request and add the image 
 
-        //once image is retrieved, call the method that lives in app 
-        //and pass it the url of the image as an argument
-        //form data sending image to DAtabase
+    uploadProfilePic(e) {
+        e.preventDefault();
+        
 
-        // newly inserted image must be the one that was retrieved from the database
-        // call the function
-        this.props.methodInApp("whooooa")
+        fetch("/uploadProfilePic", {
+            method: "POST",
+            body: new FormData(e.target),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                
+                this.props.settingProfilePic(data.payload.imageurl);
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
+
+        
     }
     render() {
         return (
-            <div>
-                <h2> This is my Uploader component</h2>
-                <h3 onClick={() => this.methodInUploader()}>
-                    Click here to run uploader method
-                </h3>
+            <div className="modalWindow">
+                <h2> Upload Profile Picture</h2>
+                <form
+                    onSubmit={(e) => this.uploadProfilePic(e)}
+                    className="modalForm"
+                >
+                    {" "}
+                    <input
+                        name="image"
+                        type="file"
+                        accept="image/*"
+                        id="input-tag"
+                        required
+                    />
+                    <button>Submit</button>
+                    
+                    <h2
+                        onClick={() => this.props.modalCallback()}
+                        className="closeModal"
+                    >
+                        X
+                    </h2>
+                </form>
             </div>
         );
     }

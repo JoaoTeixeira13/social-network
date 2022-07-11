@@ -67,8 +67,18 @@ module.exports.updatePassword = (password, email) => {
 module.exports.uploadProfilePicture = (url, userId) => {
     const q = `UPDATE users
     SET imageUrl = $1 
-    WHERE id = $2`;
+    WHERE id = $2
+    RETURNING imageUrl`;
 
     const param = [url, userId];
     return db.query(q, param);
+};
+module.exports.fetchProfile = (id) => {
+    return db.query(
+        `SELECT users.first, users.last, users.imageUrl
+    FROM users
+    WHERE id = $1
+    LIMIT 1`,
+        [id]
+    );
 };

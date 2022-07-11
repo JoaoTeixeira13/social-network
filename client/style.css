@@ -212,3 +212,23 @@ button:hover {
             0 0 16px #ff4da6;
     }
 }
+/* logged in experience */
+.modalForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.modalWindow {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    width: 50vw;
+    border: 5px solid #f6ecea;
+    border-radius: 5px;
+}
+.closeModal {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}

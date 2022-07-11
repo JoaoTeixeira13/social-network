@@ -16,18 +16,27 @@ export default class App extends Component {
     componentDidMount() {
         console.log("App mounted!");
 
-        //make fetch request to server to get info about user
-        //set state and update
+        fetch("/user")
+            .then((resp) => resp.json())
+            .then((data) => {
+                this.setState({
+                    first: data.profile.first,
+                    last: data.profile.last,
+                    imageUrl: data.profile.imageurl,
+                });
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
     }
     toggleModal() {
         this.setState({ uploaderIsVisible: !this.state.uploaderIsVisible });
     }
-    methodInApp(arg) {
-        console.log(
-            "method is running in app and argument passed tp it is: ",
-            arg
-        );
-    }
+    settingProfilePic = (arg) => {
+        this.setState({
+            imageUrl: arg,
+        });
+    };
     render() {
         return (
             <div>
@@ -43,7 +52,12 @@ export default class App extends Component {
                 />
 
                 {this.state.uploaderIsVisible && (
-                    <Uploader methodInApp={this.methodInApp} />
+                    <Uploader
+                        modalCallback={() => {
+                            this.toggleModal();
+                        }}
+                        settingProfilePic={this.settingProfilePic}
+                    />
                 )}
             </div>
         );
