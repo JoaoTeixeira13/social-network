@@ -11,50 +11,74 @@ export default class Welcome extends Component {
             witch: false,
             writer: false,
             webdev: false,
+            vanishWitch: false,
+            vanishWriter: false,
+            vanishWebdev: false,
         };
 
         // this.handleChange = this.handleChange.bind(this);
     }
     witchEnter() {
         this.witch = true;
-
-        this.setState({
-            witch: true,
-        });
+        (this.vanishWitch = false),
+            (this.vanishWriter = false),
+            (this.vanishWebdev = false),
+            this.setState({
+                witch: true,
+                vanishWitch: false,
+                vanishWriter: false,
+                vanishWebdev: false,
+            });
     }
     witchLeave() {
         this.witch = false;
+        this.vanishWitch = true;
 
         this.setState({
             witch: false,
+            vanishWitch: true,
         });
     }
     writerEnter() {
         this.writer = true;
-
-        this.setState({
-            writer: true,
-        });
+        (this.vanishWitch = false),
+            (this.vanishWriter = false),
+            (this.vanishWebdev = false),
+            this.setState({
+                writer: true,
+                vanishWitch: false,
+                vanishWriter: false,
+                vanishWebdev: false,
+            });
     }
     writerLeave() {
         this.writer = false;
+        this.vanishWriter = true;
 
         this.setState({
             writer: false,
+            vanishWriter: true,
         });
     }
     webdevEnter() {
         this.webdev = true;
-
-        this.setState({
-            webdev: true,
-        });
+        (this.vanishWitch = false),
+            (this.vanishWriter = false),
+            (this.vanishWebdev = false),
+            this.setState({
+                webdev: true,
+                vanishWitch: false,
+                vanishWriter: false,
+                vanishWebdev: false,
+            });
     }
     webdevLeave() {
         this.webdev = false;
+        this.vanishWebdev = true;
 
         this.setState({
             webdev: false,
+            vanishWebdev: true,
         });
     }
     render() {
@@ -68,6 +92,14 @@ export default class Welcome extends Component {
                             ? " writer-front"
                             : "" || this.webdev
                             ? " webdev-front"
+                            : ""
+                    } ${
+                        this.vanishWitch
+                            ? " vanishWitch"
+                            : "" || this.vanishWriter
+                            ? " vanishWriter"
+                            : "" || this.vanishWebdev
+                            ? " vanishWebdev"
                             : ""
                     }`}
                 >

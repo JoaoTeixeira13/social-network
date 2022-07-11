@@ -141,6 +141,46 @@ button:hover {
         background-position: -20px 0%;
     }
 }
+.vanishWitch {
+    object-fit: cover;
+    background: url("/goya2.jpg") no-repeat;
+    animation: vanishWitch 0.6s forwards;
+}
+@keyframes vanishWitch {
+    from {
+        background-position: 0 0%;
+    }
+    to {
+        background-position: 0 400%;
+    }
+}
+.vanishWriter {
+    object-fit: cover;
+    background: url("/nawal.jpg") no-repeat;
+    animation: vanishWriter 0.7s forwards;
+}
+@keyframes vanishWriter {
+    from {
+        background-position: 0 0%;
+    }
+    to {
+        background-position: 400% 0;
+    }
+}
+
+.vanishWebdev {
+    object-fit: cover;
+    background: url("/mary-keller.png") no-repeat;
+    animation: vanishWebdev 0.5s forwards;
+}
+@keyframes vanishWebdev {
+    from {
+        background-position: -20px 0%;
+    }
+    to {
+        background-position: -600% 0;
+    }
+}
 
 /* conditional transparency in hero text */
 
