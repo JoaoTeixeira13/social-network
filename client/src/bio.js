@@ -34,6 +34,29 @@ export default class Bio extends Component {
         //3. once you get it back, this is now the official bio
         //call the apps function set bio here and pass it to the official bio
         //this.props.setBio(data)
+
+        fetch("/updateBio", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ bio: this.state.draftBio }),
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                console.log("received data is,", data);
+                console.log("data.success data is ", data.payload.bio);
+                this.props.setBio(data.payload.bio);
+                this.setState({
+                    showTextArea: false,
+                });
+            })
+            .catch((err) => {
+                console.log("error in bioUpdate ", err);
+                this.setState({
+                    error: true,
+                });
+            });
     }
 
     render() {
@@ -45,7 +68,6 @@ export default class Bio extends Component {
                     <div className="bioEdit">
                         <h1>I am the bio editor</h1>
                         <textarea
-                            
                             name="draftBio"
                             onChange={(e) => this.handleBioChange(e)}
                         ></textarea>

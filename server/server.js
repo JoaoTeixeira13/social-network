@@ -218,7 +218,6 @@ app.post("/password/reset/verify", (req, res) => {
 //fetch profile data
 
 app.get("/user", (req, res) => {
-
     db.fetchProfile(req.session.userId)
         .then((results) => {
             const profile = results.rows[0];
@@ -281,6 +280,27 @@ app.post(
         }
     }
 );
+
+app.post("/updateBio", (req, res) => {
+    if (req.body.bio) {
+        db.updateBio(req.body.bio, req.session.userId)
+            .then((result) => {
+                res.json({
+                    sucess: true,
+                    payload: result.rows[0],
+                });
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
+    } else {
+        console.log("error in updting user's bio ", err);
+        res.json({
+            success: false,
+            error: true,
+        });
+    }
+});
 
 app.get("/logout", (req, res) => {
     req.session = null;

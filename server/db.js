@@ -82,3 +82,13 @@ module.exports.fetchProfile = (id) => {
         [id]
     );
 };
+
+module.exports.updateBio = (bio, userId) => {
+    const q = `UPDATE users
+    SET bio = $1 
+    WHERE id = $2
+    RETURNING bio`;
+
+    const param = [bio, userId];
+    return db.query(q, param);
+};

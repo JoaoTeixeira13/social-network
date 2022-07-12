@@ -10,6 +10,7 @@ CREATE TABLE users (
        last VARCHAR NOT NULL CHECK (last != ''),
        email VARCHAR NOT NULL CHECK (email != '') UNIQUE,
        imageUrl TEXT,
+       bio TEXT,
        password VARCHAR NOT NULL CHECK (password != '')
    );
 
