@@ -12,6 +12,7 @@ export default class App extends Component {
             last: "Arias",
             imageUrl: "",
             uploaderIsVisible: false,
+            bio:""
         };
     }
     componentDidMount() {
@@ -45,20 +46,24 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <h1>Hello from App</h1>
-                <Logo />
-                <ProfilePicture
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    modalCallback={() => {
-                        this.toggleModal();
-                    }}
-                />
+                <div className="profileHeader">
+                    <Logo />
+                    <ProfilePicture
+                        first={this.state.first}
+                        last={this.state.last}
+                        imageUrl={this.state.imageUrl}
+                        modalCallback={() => {
+                            this.toggleModal();
+                        }}
+                    />
+                </div>
+
                 <Profile
                     first={this.state.first}
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}
+                    bio={this.state.bio}
+                    setBio={(arg) => this.setBio(arg)}
                 />
 
                 {this.state.uploaderIsVisible && (

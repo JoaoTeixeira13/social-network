@@ -213,6 +213,15 @@ button:hover {
     }
 }
 /* logged in experience:modal*/
+.logo {
+    font-size: 3.5rem;
+}
+.profileHeader {
+    display: flex;
+    width: 90vw;
+    justify-content: space-between;
+    margin: 50px;
+}
 .modalForm {
     display: flex;
     flex-direction: column;
@@ -259,7 +268,24 @@ label {
 /* user profile */
 
 .profilePicture {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
+    border-radius: 50%;
+    border: 8px solid;
+}
+.userProfile .profilePicture {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0;
+    border: 0;
+}
+.bioEdit {
+    display: flex;
+    flex-direction: column;
+}
+textarea {
+    width: 50vw;
+    height: 150px;
 }
