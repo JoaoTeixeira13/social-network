@@ -14,7 +14,7 @@ export default function ProfilePicture({
             </h2>
             <img
                 className="profilePicture"
-                onClick={() => modalCallback()}
+                onClick={modalCallback ? () => modalCallback() : null}
                 src={imageUrl}
                 alt={first + last}
             />

@@ -2,6 +2,7 @@ import { Component } from "react";
 import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
 import Logo from "./logo";
+import Profile from "./profile";
 
 export default class App extends Component {
     constructor() {
@@ -32,11 +33,15 @@ export default class App extends Component {
     toggleModal() {
         this.setState({ uploaderIsVisible: !this.state.uploaderIsVisible });
     }
-    settingProfilePic = (arg) => {
+    settingProfilePic(arg) {
         this.setState({
             imageUrl: arg,
         });
-    };
+    }
+    setBio(newBio) {
+        //this function is in charge of receiving the official bio from bioEditor
+        //and updating its state with
+    }
     render() {
         return (
             <div>
@@ -50,13 +55,18 @@ export default class App extends Component {
                         this.toggleModal();
                     }}
                 />
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                />
 
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         modalCallback={() => {
                             this.toggleModal();
                         }}
-                        settingProfilePic={this.settingProfilePic}
+                        settingProfilePic={(arg) => this.settingProfilePic(arg)}
                     />
                 )}
             </div>

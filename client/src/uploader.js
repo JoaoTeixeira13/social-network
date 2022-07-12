@@ -4,6 +4,7 @@ export default class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+
     }
     componentDidMount() {
         console.log("Uploader just mounted");
@@ -19,6 +20,7 @@ export default class Uploader extends Component {
             .then((res) => res.json())
             .then((data) => {
                 this.props.settingProfilePic(data.payload.imageurl);
+                this.props.modalCallback();
             })
             .catch((err) => {
                 console.log("error is ", err);
