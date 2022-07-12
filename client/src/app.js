@@ -25,6 +25,7 @@ export default class App extends Component {
                     first: data.profile.first,
                     last: data.profile.last,
                     imageUrl: data.profile.imageurl,
+                    bio: data.profile.bio,
                 });
             })
             .catch((err) => {
@@ -40,11 +41,9 @@ export default class App extends Component {
         });
     }
     setBio(newBio) {
-      
         this.setState({
             bio: newBio,
         });
-        
     }
     render() {
         return (
