@@ -40,11 +40,11 @@ export default class App extends Component {
         });
     }
     setBio(newBio) {
-        //this function is in charge of receiving the official bio from bioEditor
-        //and updating its state with
+      
         this.setState({
             bio: newBio,
         });
+        
     }
     render() {
         return (

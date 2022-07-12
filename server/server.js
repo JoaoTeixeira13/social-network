@@ -286,7 +286,7 @@ app.post("/updateBio", (req, res) => {
         db.updateBio(req.body.bio, req.session.userId)
             .then((result) => {
                 res.json({
-                    sucess: true,
+                    success: true,
                     payload: result.rows[0],
                 });
             })

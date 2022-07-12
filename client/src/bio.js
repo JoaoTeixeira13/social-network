@@ -22,19 +22,11 @@ export default class Bio extends Component {
     activateEdit() {
         this.setState({
             showTextArea: true,
+            draftBio: this.props.bio,
         });
     }
 
     submitBio() {
-        console.log("user wants to submit bio");
-        //this should run whenever the user clicks save(done writing bio)
-        //Todo
-        // make a fetch post request, send along this.state.draftBio
-        //2. after the draft bio was successfully inserted in the db, make sure the server sends it back to react
-        //3. once you get it back, this is now the official bio
-        //call the apps function set bio here and pass it to the official bio
-        //this.props.setBio(data)
-
         fetch("/updateBio", {
             method: "POST",
             headers: {
@@ -44,8 +36,6 @@ export default class Bio extends Component {
         })
             .then((resp) => resp.json())
             .then((data) => {
-                console.log("received data is,", data);
-                console.log("data.success data is ", data.payload.bio);
                 this.props.setBio(data.payload.bio);
                 this.setState({
                     showTextArea: false,
@@ -60,8 +50,6 @@ export default class Bio extends Component {
     }
 
     render() {
-        console.log("this draft bio is,", this.state.draftBio);
-
         return (
             <div>
                 {this.state.showTextArea && (
@@ -69,6 +57,7 @@ export default class Bio extends Component {
                         <h1>I am the bio editor</h1>
                         <textarea
                             name="draftBio"
+                            value={this.state.draftBio}
                             onChange={(e) => this.handleBioChange(e)}
                         ></textarea>
                         <button onClick={() => this.submitBio()}>
@@ -78,7 +67,7 @@ export default class Bio extends Component {
                 )}
                 {!this.state.showTextArea && this.props.bio && (
                     <div>
-                        <p>{props.bio}</p>
+                        <p>{this.props.bio}</p>
                         <button onClick={() => this.activateEdit()}>
                             Edit Bio
                         </button>
@@ -92,12 +81,6 @@ export default class Bio extends Component {
                     </div>
                 )}
             </div>
-
-            // if thetext area is hidden, check to see if there is a bio
-
-            //if there is an existing bio, allow the user to EDIT
-            // if there is no bio, allow the user to add a bio
-            //whenever they click on the add or edit button, show the text area
         );
     }
 }
