@@ -92,3 +92,22 @@ module.exports.updateBio = (bio, userId) => {
     const param = [bio, userId];
     return db.query(q, param);
 };
+
+module.exports.newestUsers = () => {
+    return db.query(
+        `SELECT users.id, users.first, users.last, users.imageUrl
+    FROM users
+    ORDER BY id DESC   
+    LIMIT 3 `
+    );
+};
+
+module.exports.getMatchingUsers = (val) => {
+     return db.query(
+         `SELECT users.id, users.first, users.last, users.imageUrl 
+     FROM users 
+     WHERE first ILIKE $1;`,
+         [val + "%"]
+     );
+
+};

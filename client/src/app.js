@@ -1,8 +1,11 @@
 import { Component } from "react";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+
 import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
 import Logo from "./logo";
 import Profile from "./profile";
+import FindPeople from "./findPeople";
 
 export default class App extends Component {
     constructor() {
@@ -45,37 +48,66 @@ export default class App extends Component {
             bio: newBio,
         });
     }
+    logout() {
+        console.log("user wants to logout");
+        fetch("/logout")
+            .then((resp) => resp.json())
+            .then(() => {
+                location.reload();
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
+    }
     render() {
         return (
             <div>
-                <div className="profileHeader">
-                    <Logo />
-                    <ProfilePicture
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
-                        modalCallback={() => {
-                            this.toggleModal();
-                        }}
-                    />
-                </div>
+                <BrowserRouter>
+                    <nav className="profileHeader">
+                        <Logo />
+                        <Link to="/find">
+                            <h2>Users</h2>
+                        </Link>
+                        <Link to="/">
+                            <h2>Profile</h2>
+                        </Link>
+                        <Link to="/">
+                            <h2 onClick={() => this.logout()}>Logout</h2>
+                        </Link>
 
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    bio={this.state.bio}
-                    setBio={(arg) => this.setBio(arg)}
-                />
+                        <ProfilePicture
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            modalCallback={() => {
+                                this.toggleModal();
+                            }}
+                        />
+                    </nav>
+                    <Route exact path="/">
+                        <Profile
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            bio={this.state.bio}
+                            setBio={(arg) => this.setBio(arg)}
+                        />
+                    </Route>
 
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        modalCallback={() => {
-                            this.toggleModal();
-                        }}
-                        settingProfilePic={(arg) => this.settingProfilePic(arg)}
-                    />
-                )}
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            modalCallback={() => {
+                                this.toggleModal();
+                            }}
+                            settingProfilePic={(arg) =>
+                                this.settingProfilePic(arg)
+                            }
+                        />
+                    )}
+                    <Route path="/find">
+                        <FindPeople />
+                    </Route>
+                </BrowserRouter>
             </div>
         );
     }

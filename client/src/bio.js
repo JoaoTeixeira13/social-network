@@ -9,12 +9,9 @@ export default class Bio extends Component {
         };
     }
 
-    //the bio that the user types in the bioeditor is the the draft bio,
-    //the bio the user submits and successfully goes through the database is the official bio and should live in APP
 
     handleBioChange(e) {
-        //in here keep track of the bio the user is typing
-        //store the info in state (draft Bio)
+        
         this.setState({
             [e.target.name]: e.target.value,
         });

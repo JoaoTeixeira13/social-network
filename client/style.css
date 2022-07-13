@@ -222,6 +222,12 @@ button:hover {
     justify-content: space-between;
     margin: 50px;
 }
+.profileHeader a {
+    color: #adedad;
+}
+.profileHeader a:hover {
+    color: #a11d16;
+}
 .modalForm {
     display: flex;
     flex-direction: column;

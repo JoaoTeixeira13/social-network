@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default class Login extends Component {
     constructor() {
@@ -26,7 +26,7 @@ export default class Login extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 if (data.success) {
-                    location.reload();
+                    location.replace("/");
                 } else {
                     this.setState({
                         error: true,

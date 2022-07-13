@@ -281,6 +281,8 @@ app.post(
     }
 );
 
+// update biography route
+
 app.post("/updateBio", (req, res) => {
     if (req.body.bio) {
         db.updateBio(req.body.bio, req.session.userId)
@@ -302,9 +304,37 @@ app.post("/updateBio", (req, res) => {
     }
 });
 
+// find users/ newest users to register route
+
+app.get("/users", (req, res) => {
+    if (req.query.userSearch) {
+        db.getMatchingUsers(req.query.userSearch)
+            .then((result) => {
+                res.json({
+                    success: true,
+                    payload: result.rows,
+                });
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
+    } else {
+        db.newestUsers()
+            .then((result) => {
+                res.json({
+                    success: true,
+                    payload: result.rows,
+                });
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            });
+    }
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
-    res.redirect("/");
+    res.json({ success: true });
 });
 
 app.get("*", function (req, res) {
