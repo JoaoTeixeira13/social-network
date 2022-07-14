@@ -217,7 +217,7 @@ app.post("/password/reset/verify", (req, res) => {
 
 //fetch profile data
 
-app.get("/user", (req, res) => {
+app.get("/api/user", (req, res) => {
     db.fetchProfile(req.session.userId)
         .then((results) => {
             const profile = results.rows[0];
@@ -306,7 +306,7 @@ app.post("/updateBio", (req, res) => {
 
 // find users/ newest users to register route
 
-app.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
     if (req.query.userSearch) {
         db.getMatchingUsers(req.query.userSearch)
             .then((result) => {
@@ -329,6 +329,46 @@ app.get("/users", (req, res) => {
             .catch((err) => {
                 console.log("error is ", err);
             });
+    }
+});
+
+//search for other profiles: is the input a number? does the input match with the user id?
+//does the query return an existing user?
+
+app.get("/api/user/:id", async (req, res) => {
+    if (!isNaN(req.params.id)) {
+        if (req.session.userId == req.params.id) {
+            res.json({
+                ownProfile: true,
+            });
+        } else {
+            try {
+                const results = await db.fetchProfile(req.params.id);
+
+
+                const profile = results.rows[0];
+                if (!profile) {
+                    res.json({
+                        noMatch: true,
+                    });
+                } else {
+                    res.json({
+                        success: true,
+                        profile,
+                    });
+                }
+            } catch (error) {
+                console.log("error in fetching user's profile ", err);
+                res.json({
+                    success: false,
+                    error: true,
+                });
+            }
+        }
+    } else {
+        res.json({
+            ownProfile: true,
+        });
     }
 });
 

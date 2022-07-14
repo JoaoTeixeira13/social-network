@@ -7,6 +7,10 @@ body {
 }
 a {
     text-decoration: none;
+    color: #adedad;
+}
+a:hover {
+    color: #a11d16;
 }
 
 p {
@@ -274,8 +278,8 @@ label {
 /* user profile */
 
 .profilePicture {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 50%;
     border: 8px solid;
@@ -294,4 +298,10 @@ label {
 textarea {
     width: 50vw;
     height: 150px;
+}
+
+.findPeople img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
 }

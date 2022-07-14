@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function FindPeople() {
     const [newestUsers, setNewestUsers] = useState([]);
@@ -6,7 +7,7 @@ export default function FindPeople() {
 
     useEffect(() => {
         let abort = false;
-        fetch(`/users?userSearch=${searchInput}`)
+        fetch(`/api/users?userSearch=${searchInput}`)
             .then((resp) => resp.json())
             .then((data) => {
                 if (!abort) {
@@ -27,18 +28,22 @@ export default function FindPeople() {
     }, [searchInput]);
 
     return (
-        <div>
+        <div className="findPeople">
             {!searchInput && <h1>Newest users!</h1>}
 
             {newestUsers &&
                 newestUsers.map((newestUser) => {
                     return (
                         <div key={newestUser.id}>
-                            <img
-                                src={newestUser.imageurl}
-                                alt={(newestUser.first, newestUser.last)}
-                            />{" "}
-                            {newestUser.first} {newestUser.last}{" "}
+                            <Link to={`user/${newestUser.id}`}>
+                                <img
+                                    src={newestUser.imageurl}
+                                    alt={(newestUser.first, newestUser.last)}
+                                />{" "}
+                                <h3>
+                                    {newestUser.first} {newestUser.last}
+                                </h3>
+                            </Link>
                         </div>
                     );
                 })}

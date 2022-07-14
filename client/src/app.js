@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import Logo from "./logo";
 import Profile from "./profile";
 import FindPeople from "./findPeople";
+import OtherProfile from "./otherProfile";
 
 export default class App extends Component {
     constructor() {
@@ -21,7 +22,7 @@ export default class App extends Component {
     componentDidMount() {
         console.log("App mounted!");
 
-        fetch("/user")
+        fetch("/api/user")
             .then((resp) => resp.json())
             .then((data) => {
                 this.setState({
@@ -74,6 +75,7 @@ export default class App extends Component {
                         <Link to="/">
                             <h2 onClick={() => this.logout()}>Logout</h2>
                         </Link>
+                        
 
                         <ProfilePicture
                             first={this.state.first}
@@ -106,6 +108,9 @@ export default class App extends Component {
                     )}
                     <Route path="/find">
                         <FindPeople />
+                    </Route>
+                    <Route path="/user/:otherUserId">
+                        <OtherProfile />
                     </Route>
                 </BrowserRouter>
             </div>
