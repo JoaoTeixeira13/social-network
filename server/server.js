@@ -308,7 +308,7 @@ app.post("/updateBio", (req, res) => {
 
 app.get("/api/users", (req, res) => {
     if (req.query.userSearch) {
-        db.getMatchingUsers(req.query.userSearch)
+        db.getMatchingUsers(req.query.userSearch, req.session.userId)
             .then((result) => {
                 res.json({
                     success: true,
@@ -319,7 +319,7 @@ app.get("/api/users", (req, res) => {
                 console.log("error is ", err);
             });
     } else {
-        db.newestUsers()
+        db.newestUsers(req.session.userId)
             .then((result) => {
                 res.json({
                     success: true,
@@ -344,7 +344,6 @@ app.get("/api/user/:id", async (req, res) => {
         } else {
             try {
                 const results = await db.fetchProfile(req.params.id);
-
 
                 const profile = results.rows[0];
                 if (!profile) {

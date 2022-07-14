@@ -93,21 +93,23 @@ module.exports.updateBio = (bio, userId) => {
     return db.query(q, param);
 };
 
-module.exports.newestUsers = () => {
+module.exports.newestUsers = (id) => {
     return db.query(
         `SELECT users.id, users.first, users.last, users.imageUrl
     FROM users
+    WHERE  id!=$1
     ORDER BY id DESC   
-    LIMIT 3 `
+    LIMIT 3 `,
+        [id]
     );
 };
 
-module.exports.getMatchingUsers = (val) => {
-     return db.query(
-         `SELECT users.id, users.first, users.last, users.imageUrl 
+module.exports.getMatchingUsers = (val, userId) => {
+    return db.query(
+        `SELECT users.id, users.first, users.last, users.imageUrl 
      FROM users 
-     WHERE first ILIKE $1;`,
-         [val + "%"]
-     );
-
+     WHERE first ILIKE $1
+     AND id!=$2;`,
+        [val + "%", userId]
+    );
 };
