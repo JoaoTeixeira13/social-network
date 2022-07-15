@@ -426,8 +426,6 @@ app.get("/api/relation/:viewedUser", async (req, res) => {
 //handling friendship button
 
 app.post("/api/requestHandle/:viewedUser", async (req, res) => {
-    
-
     if (req.body.buttonText === buttonValues.add) {
         try {
             await db.requestFriendship(
@@ -446,7 +444,10 @@ app.post("/api/requestHandle/:viewedUser", async (req, res) => {
         }
     } else if (req.body.buttonText === buttonValues.accept) {
         try {
-            await db.acceptFriendship(req.session.userId);
+            await db.acceptFriendship(
+                req.session.userId,
+                req.params.viewedUser
+            );
             res.json({
                 buttonText: buttonValues.remove,
             });
@@ -462,7 +463,10 @@ app.post("/api/requestHandle/:viewedUser", async (req, res) => {
         req.body.buttonText === buttonValues.remove
     ) {
         try {
-            await db.unfriendOrCancelFriendship(req.session.userId);
+            await db.unfriendOrCancelFriendship(
+                req.session.userId,
+                req.params.viewedUser
+            );
             res.json({
                 buttonText: buttonValues.add,
             });

@@ -133,21 +133,21 @@ module.exports.requestFriendship = (sender, recipient) => {
     return db.query(q, param);
 };
 
-module.exports.acceptFriendship = (recipient) => {
+module.exports.acceptFriendship = (recipient, sender) => {
     const q = `UPDATE friendships
     SET accepted = true
-    WHERE (recipient_id = $1 )
+    WHERE (recipient_id = $1 AND sender_id = $2)
     `;
 
-    const param = [recipient];
+    const param = [recipient, sender];
     return db.query(q, param);
 };
 
-module.exports.unfriendOrCancelFriendship = (loggedUser) => {
+module.exports.unfriendOrCancelFriendship = (loggedUser, viewedUser) => {
     return db.query(
         `DELETE FROM friendships
-      WHERE (recipient_id = $1)
-      OR (sender_id = $1)`,
-        [loggedUser]
+      WHERE (recipient_id = $1 AND sender_id = $2)
+      OR (sender_id = $1 AND recipient_id = $2)`,
+        [loggedUser, viewedUser]
     );
 };
