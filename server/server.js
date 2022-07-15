@@ -371,6 +371,115 @@ app.get("/api/user/:id", async (req, res) => {
     }
 });
 
+const buttonValues = {
+    add: "Add Friend",
+    accept: "Accept Friend Request",
+    cancel: "Cancel Friend Request",
+    remove: "Unfriend",
+};
+
+//fetching the type of relation between two users
+
+app.get("/api/relation/:viewedUser", async (req, res) => {
+    try {
+        const results = await db.friendshipRelation(
+            req.session.userId,
+            req.params.viewedUser
+        );
+        const userRelation = results.rows[0];
+
+        if (!userRelation) {
+            res.json({
+                buttonText: buttonValues.add,
+            });
+        } else {
+            if (userRelation.accepted) {
+                res.json({
+                    buttonText: buttonValues.remove,
+                });
+            } else {
+                if (userRelation.sender_id == req.session.userId) {
+                    res.json({
+                        buttonText: buttonValues.cancel,
+                    });
+                } else if (userRelation.recipient_id == req.session.userId) {
+                    res.json({
+                        buttonText: buttonValues.accept,
+                    });
+                } else {
+                    res.json({
+                        success: false,
+                        error: true,
+                    });
+                }
+            }
+        }
+    } catch (err) {
+        console.log("error in fetching users' relation ", err);
+        res.json({
+            success: false,
+            error: true,
+        });
+    }
+});
+
+//handling friendship button
+
+app.post("/api/requestHandle/:viewedUser", async (req, res) => {
+    
+
+    if (req.body.buttonText === buttonValues.add) {
+        try {
+            await db.requestFriendship(
+                req.session.userId,
+                req.params.viewedUser
+            );
+            res.json({
+                buttonText: buttonValues.cancel,
+            });
+        } catch (err) {
+            console.log("error in fetching users' relation ", err);
+            res.json({
+                success: false,
+                error: true,
+            });
+        }
+    } else if (req.body.buttonText === buttonValues.accept) {
+        try {
+            await db.acceptFriendship(req.session.userId);
+            res.json({
+                buttonText: buttonValues.remove,
+            });
+        } catch (err) {
+            console.log("error in fetching users' relation ", err);
+            res.json({
+                success: false,
+                error: true,
+            });
+        }
+    } else if (
+        req.body.buttonText === buttonValues.cancel ||
+        req.body.buttonText === buttonValues.remove
+    ) {
+        try {
+            await db.unfriendOrCancelFriendship(req.session.userId);
+            res.json({
+                buttonText: buttonValues.add,
+            });
+        } catch (err) {
+            console.log("error in fetching users' relation ", err);
+            res.json({
+                success: false,
+                error: true,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.json({ success: true });

@@ -113,3 +113,41 @@ module.exports.getMatchingUsers = (val, userId) => {
         [val + "%", userId]
     );
 };
+
+//queries dealing with friendship status
+
+module.exports.friendshipRelation = (loggedUser, viewedUser) => {
+    const q = `SELECT * FROM friendships
+     WHERE (recipient_id = $1 AND sender_id = $2)
+     OR (recipient_id = $2 AND sender_id = $1)`;
+
+    const param = [loggedUser, viewedUser];
+    return db.query(q, param);
+};
+
+module.exports.requestFriendship = (sender, recipient) => {
+    const q = `INSERT INTO friendships(sender_id, recipient_id)
+     VALUES ($1, $2)
+    `;
+    const param = [sender, recipient];
+    return db.query(q, param);
+};
+
+module.exports.acceptFriendship = (recipient) => {
+    const q = `UPDATE friendships
+    SET accepted = true
+    WHERE (recipient_id = $1 )
+    `;
+
+    const param = [recipient];
+    return db.query(q, param);
+};
+
+module.exports.unfriendOrCancelFriendship = (loggedUser) => {
+    return db.query(
+        `DELETE FROM friendships
+      WHERE (recipient_id = $1)
+      OR (sender_id = $1)`,
+        [loggedUser]
+    );
+};
