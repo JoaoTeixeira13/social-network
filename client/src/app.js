@@ -50,7 +50,6 @@ export default class App extends Component {
         });
     }
     logout() {
-        console.log("user wants to logout");
         fetch("/logout")
             .then((resp) => resp.json())
             .then(() => {
@@ -60,31 +59,38 @@ export default class App extends Component {
                 console.log("error is ", err);
             });
     }
+    getYear() {
+        return new Date().getFullYear();
+    }
+
     render() {
         return (
-            <div>
+            <div className="mainApp">
                 <BrowserRouter>
                     <nav className="profileHeader">
                         <Logo />
-                        <Link to="/find">
-                            <h2>Users</h2>
-                        </Link>
-                        <Link to="/">
-                            <h2>Profile</h2>
-                        </Link>
-                        <Link to="/">
-                            <h2 onClick={() => this.logout()}>Logout</h2>
-                        </Link>
-                        
+                        <div className="navRight">
+                            <Link to="/find">
+                                <h2>Users</h2>
+                            </Link>
+                            <Link to="/">
+                                <h2>Profile</h2>
+                            </Link>
+                            <Link to="/">
+                                <h2 onClick={() => this.logout()} id="logout">
+                                    Logout{" "}
+                                </h2>
+                            </Link>
 
-                        <ProfilePicture
-                            first={this.state.first}
-                            last={this.state.last}
-                            imageUrl={this.state.imageUrl}
-                            modalCallback={() => {
-                                this.toggleModal();
-                            }}
-                        />
+                            <ProfilePicture
+                                first={this.state.first}
+                                last={this.state.last}
+                                imageUrl={this.state.imageUrl}
+                                modalCallback={() => {
+                                    this.toggleModal();
+                                }}
+                            />
+                        </div>
                     </nav>
                     <Route exact path="/">
                         <Profile
@@ -113,6 +119,9 @@ export default class App extends Component {
                         <OtherProfile />
                     </Route>
                 </BrowserRouter>
+                <footer>
+                    &copy; Witches & Writers & Webdevs, {this.getYear()}
+                </footer>
             </div>
         );
     }

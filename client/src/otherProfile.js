@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import FriendButton from "./friendButton";
+import NotFound from "./404notFound";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
@@ -32,15 +33,10 @@ export default function OtherProfile() {
     }, []);
     return (
         <>
-            {!user && (
-                <div>
-                    {" "}
-                    <h1>404 NO USER FOUND</h1>
-                </div>
-            )}
+            {!user && <NotFound />}
             {user && (
                 <div>
-                    <h1>Other Witches, Writers and WebDevs!</h1>
+                    <h1>{user.first}'s profile</h1>
                     <h2>
                         {user.first} {user.last}
                     </h2>
@@ -49,7 +45,7 @@ export default function OtherProfile() {
                         alt={`${user.first} ${user.last}`}
                     />
                     <h3>{user.bio}</h3>
-                    <FriendButton viewedUser={otherUserId}/>
+                    <FriendButton viewedUser={otherUserId} />
                 </div>
             )}
         </>

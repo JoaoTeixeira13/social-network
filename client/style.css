@@ -216,22 +216,43 @@ button:hover {
             0 0 16px #ff4da6;
     }
 }
-/* logged in experience:modal*/
-.logo {
-    font-size: 3.5rem;
+/* logged in experience: navbar*/
+.mainApp {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
 }
+.logo {
+    font-size: 4.5rem;
+    margin: 25px 0 0;
+    color: #e17537;
+}
+
+.profileHeader a h2 {
+    margin: 45px 18px;
+}
+
 .profileHeader {
     display: flex;
     width: 90vw;
     justify-content: space-between;
-    margin: 50px;
+    padding: 25px 5% 20px;
+    background-color: #adedad;
 }
 .profileHeader a {
-    color: #adedad;
+    color: #e17537;
 }
 .profileHeader a:hover {
     color: #a11d16;
 }
+.navRight {
+    display: flex;
+}
+#logout {
+    margin-right: 60px;
+}
+/* modal */
 .modalForm {
     display: flex;
     flex-direction: column;
@@ -278,11 +299,14 @@ label {
 /* user profile */
 
 .profilePicture {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
-    border: 8px solid;
+    border: 6px solid #e17537;
+}
+.profilePicture:hover {
+    border: 6px solid #a11d16;
 }
 .userProfile .profilePicture {
     width: 400px;
@@ -300,8 +324,58 @@ textarea {
     height: 150px;
 }
 
+/* user search */
+
+.findPeople {
+    display: flex;
+    flex-direction: column;
+    height: 55vh;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+    width: 90vw;
+    align-items: center;
+}
+.findPeople h1 {
+    margin: 80px 0 auto;
+}
+
+#vanish,
 .findPeople img {
     width: 250px;
     height: 250px;
     object-fit: cover;
+    border-radius: 76% 24% 63% 37% / 35% 20% 80% 65%;
+}
+.displayedUserSearch {
+    display: flex;
+    width: 90vw;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.userCell {
+    margin: 20px 45px;
+}
+
+.userNotFound,
+.displayedUserSearch a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+#vanish {
+    width: 350px;
+    height: 350px;
+}
+#vanishText {
+    margin-top: 30px;
+}
+
+/* footer */
+footer {
+    padding: 20px 0;
+    font-size: 14px;
+    position: absolute;
+    bottom: 15px;
 }

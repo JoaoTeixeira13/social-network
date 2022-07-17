@@ -10,6 +10,7 @@ export default function Profile(props) {
                 first={props.first}
                 last={props.last}
                 imageUrl={props.imageUrl}
+                alt={`${props.first} ${props.last}`}
             />
             <Bio bio={props.bio} setBio={(arg) => props.setBio(arg)} />
         </div>

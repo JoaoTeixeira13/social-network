@@ -72,6 +72,9 @@ export default class Welcome extends Component {
             vanishWebdev: true,
         });
     }
+    getYear() {
+        return new Date().getFullYear();
+    }
     render() {
         return (
             <div id="welcome">
@@ -137,6 +140,9 @@ export default class Welcome extends Component {
                         <Route path="/reset">
                             <ResetPassword />
                         </Route>
+                        <footer>
+                            &copy; Witches & Writers & Webdevs, {this.getYear()}
+                        </footer>
                     </div>
                 </BrowserRouter>
             </div>

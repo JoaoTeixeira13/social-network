@@ -8,7 +8,6 @@ export default function FriendButton({ viewedUser }) {
             try {
                 const resp = await fetch(`/api/relation/${viewedUser}`);
                 const data = await resp.json();
-                console.log("received data is, ", data);
 
                 setButtonText(data.buttonText);
             } catch (err) {

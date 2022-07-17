@@ -99,7 +99,7 @@ module.exports.newestUsers = (id) => {
     FROM users
     WHERE  id!=$1
     ORDER BY id DESC   
-    LIMIT 3 `,
+    LIMIT 6 `,
         [id]
     );
 };
