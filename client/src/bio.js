@@ -9,9 +9,7 @@ export default class Bio extends Component {
         };
     }
 
-
     handleBioChange(e) {
-        
         this.setState({
             [e.target.name]: e.target.value,
         });
@@ -19,6 +17,12 @@ export default class Bio extends Component {
     activateEdit() {
         this.setState({
             showTextArea: true,
+            draftBio: this.props.bio,
+        });
+    }
+    closeEdit() {
+        this.setState({
+            showTextArea: false,
             draftBio: this.props.bio,
         });
     }
@@ -51,20 +55,28 @@ export default class Bio extends Component {
             <div>
                 {this.state.showTextArea && (
                     <div className="bioEdit">
-                        <h1>I am the bio editor</h1>
+                        <h2>
+                            Tell others about yourself, they are curious about
+                            your life.{" "}
+                        </h2>
                         <textarea
                             name="draftBio"
                             value={this.state.draftBio}
                             onChange={(e) => this.handleBioChange(e)}
                         ></textarea>
-                        <button onClick={() => this.submitBio()}>
-                            Submit Bio
-                        </button>
+                        <div className="bioButtons">
+                            <button onClick={() => this.submitBio()}>
+                                Submit Bio
+                            </button>
+                            <button onClick={() => this.closeEdit()}>
+                                Return
+                            </button>
+                        </div>
                     </div>
                 )}
                 {!this.state.showTextArea && this.props.bio && (
                     <div>
-                        <p>{this.props.bio}</p>
+                        <h3>{this.props.bio}</h3>
                         <button onClick={() => this.activateEdit()}>
                             Edit Bio
                         </button>

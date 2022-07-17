@@ -35,17 +35,21 @@ export default function OtherProfile() {
         <>
             {!user && <NotFound />}
             {user && (
-                <div>
-                    <h1>{user.first}'s profile</h1>
-                    <h2>
-                        {user.first} {user.last}
-                    </h2>
-                    <img
-                        src={user.imageurl}
-                        alt={`${user.first} ${user.last}`}
-                    />
-                    <h3>{user.bio}</h3>
-                    <FriendButton viewedUser={otherUserId} />
+                <div className="userProfile">
+                    <div className="imageSection">
+                        <img
+                            src={user.imageurl || "/default.png"}
+                            alt={`${user.first} ${user.last}`}
+                        />
+                    </div>
+                    <div className="profileInfo">
+                        <h1>{user.first}'s profile</h1>
+                        <h2>
+                            {user.first} {user.last}
+                        </h2>
+                        <h3>{user.bio}</h3>
+                        <FriendButton viewedUser={otherUserId} />
+                    </div>
                 </div>
             )}
         </>

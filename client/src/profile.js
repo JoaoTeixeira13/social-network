@@ -4,15 +4,22 @@ import Bio from "./bio";
 export default function Profile(props) {
     return (
         <div className="userProfile">
-            <h2> Welcome to your profile, {props.first}!</h2>
+            <div className="imageSection">
+                <ProfilePicture
+                    first={props.first}
+                    last={props.last}
+                    imageUrl={props.imageUrl || "/default.png"}
+                    alt={`${props.first} ${props.last}`}
+                />
+            </div>
+            <div className="profileInfo">
+                <h1> Welcome to your profile, {props.first}!</h1>
 
-            <ProfilePicture
-                first={props.first}
-                last={props.last}
-                imageUrl={props.imageUrl}
-                alt={`${props.first} ${props.last}`}
-            />
-            <Bio bio={props.bio} setBio={(arg) => props.setBio(arg)} />
+                <Bio
+                    bio={props.bio}
+                    setBio={(arg) => props.setBio(arg)}
+                />
+            </div>
         </div>
     );
 }

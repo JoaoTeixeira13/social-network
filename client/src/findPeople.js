@@ -11,6 +11,7 @@ export default function FindPeople() {
         fetch(`/api/users?userSearch=${searchInput}`)
             .then((resp) => resp.json())
             .then((data) => {
+                console.log("received data is,", data.payload);
                 if (!abort) {
                     setUsers(data.payload);
                 } else {
@@ -32,7 +33,9 @@ export default function FindPeople() {
         <>
             <div className="findPeople">
                 {(!searchInput && <h1>Newest users!</h1>) ||
-                    (searchInput && <h1>Results for {searchInput}</h1>)}
+                    (users.length !== 0 && searchInput && (
+                        <h1>Results for {searchInput}</h1>
+                    ))}
                 {!users.length && <NotFound />}
 
                 <div className="displayedUserSearch">
@@ -42,7 +45,7 @@ export default function FindPeople() {
                                 <div key={user.id} className="userCell">
                                     <Link to={`user/${user.id}`}>
                                         <img
-                                            src={user.imageurl}
+                                            src={user.imageurl || "/default.png"}
                                             alt={`${user.first} ${user.last}`}
                                         />{" "}
                                         <h3>

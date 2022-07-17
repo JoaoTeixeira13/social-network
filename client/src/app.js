@@ -120,7 +120,7 @@ export default class App extends Component {
                     </Route>
                 </BrowserRouter>
                 <footer>
-                    &copy; Witches & Writers & Webdevs, {this.getYear()}
+                    &copy; Witches & Writers & WebDevs, {this.getYear()}
                 </footer>
             </div>
         );
