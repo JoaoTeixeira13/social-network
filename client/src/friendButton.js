@@ -18,23 +18,22 @@ export default function FriendButton({ viewedUser }) {
 
     const handleFriendship = () => {
         (async () => {
-            const resp = await fetch(`/api/requestHandle/${viewedUser}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ buttonText }),
-            });
-            const data = await resp.json();
-            setButtonText(data.buttonText);
-
             try {
+                const resp = await fetch(`/api/requestHandle/${viewedUser}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ buttonText }),
+                });
+                const data = await resp.json();
+                setButtonText(data.buttonText);
             } catch (err) {
                 console.log("error in posting users' relationship ", err);
             }
         })();
     };
-   
+
     return (
         <>
             {" "}

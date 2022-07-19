@@ -426,6 +426,8 @@ app.get("/api/relation/:viewedUser", async (req, res) => {
 //handling friendship button
 
 app.post("/api/requestHandle/:viewedUser", async (req, res) => {
+    console.log("requested body is", req.body);
+
     if (req.body.buttonText === buttonValues.add) {
         try {
             await db.requestFriendship(
@@ -480,6 +482,25 @@ app.post("/api/requestHandle/:viewedUser", async (req, res) => {
     } else {
         res.json({
             success: false,
+            error: true,
+        });
+    }
+});
+
+app.get("/friendsWannabees", async (req, res) => {
+    try {
+        const results = await db.getFriendsAndWannabees(req.session.userId);
+        const friendsAndPretenders = results.rows;
+
+        res.json({
+            success: true,
+            friendsAndPretenders,
+        });
+    } catch (err) {
+        console.log("error in fetching friends and wannabees", err);
+        res.json({
+            success: false,
+            error: true,
         });
     }
 });

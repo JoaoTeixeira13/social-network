@@ -11,7 +11,6 @@ export default function FindPeople() {
         fetch(`/api/users?userSearch=${searchInput}`)
             .then((resp) => resp.json())
             .then((data) => {
-                console.log("received data is,", data.payload);
                 if (!abort) {
                     setUsers(data.payload);
                 } else {

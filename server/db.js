@@ -151,3 +151,15 @@ module.exports.unfriendOrCancelFriendship = (loggedUser, viewedUser) => {
         [loggedUser, viewedUser]
     );
 };
+
+module.exports.getFriendsAndWannabees = (loggedUser) => {
+    return db.query(
+        `SELECT users.id, first, last, imageUrl, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND recipient_id = users.id) `,
+        [loggedUser]
+    );
+};

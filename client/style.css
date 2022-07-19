@@ -377,13 +377,15 @@ textarea {
 }
 
 #vanish,
-.findPeople img {
+.findPeople img,
+.friends img,
+.wannabees img {
     width: 250px;
     height: 250px;
     object-fit: cover;
     border-radius: 76% 24% 63% 37% / 35% 20% 80% 65%;
 }
-.displayedUserSearch {
+.friends, .wannabees, .displayedUserSearch {
     display: flex;
     width: 90vw;
     overflow-x: auto;
