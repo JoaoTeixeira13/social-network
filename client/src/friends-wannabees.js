@@ -15,9 +15,7 @@ export default function FriendsAndWannabees() {
         state.friends.filter((friend) => friend.accepted)
     );
 
-
     useEffect(() => {
-
         (async () => {
             try {
                 const resp = await fetch("/friendsWannabees");
@@ -29,6 +27,13 @@ export default function FriendsAndWannabees() {
             }
         })();
     }, []);
+
+    const buttonValues = {
+        add: "Add Friend",
+        accept: "Accept Friend Request",
+        cancel: "Cancel Friend Request",
+        remove: "Unfriend",
+    };
 
     const handleClick = (id, type) => {
         (async () => {
@@ -44,10 +49,10 @@ export default function FriendsAndWannabees() {
                 console.log("received data back is,", data);
 
                 if (!data.error) {
-                    if (type === "Accept Friend Request") {
+                    if (type === buttonValues.accept) {
                         dispatch(makeFriend(id));
                     }
-                    if (type === "Unfriend") {
+                    if (type === buttonValues.remove) {
                         dispatch(makeUnfriend(id));
                     }
                 }
@@ -58,58 +63,83 @@ export default function FriendsAndWannabees() {
     };
     return (
         <section>
-            <h1>Friends</h1>
-            <div className="friends">
-                {friends &&
-                    friends.map((friend) => {
-                        return (
-                            <div key={friend.id}>
-                                <img
-                                    src={friend.imageurl || "/default.png"}
-                                    alt={`${friend.first} ${friend.last}`}
-                                />
-                                <h2>
-                                    {friend.first} {friend.last}
-                                </h2>
-                                <button
-                                    onClick={() =>
-                                        handleClick(friend.id, "Unfriend")
-                                    }
-                                >
-                                    Unfriend
-                                </button>
-                            </div>
-                        );
-                    })}
+            <div className="fwWrapper">
+                <div className="fwDisplay">
+                    <h1>Friends</h1>
+                </div>
+                <div className="friends">
+                    {friends &&
+                        friends.map((friend) => {
+                            return (
+                                <div className="userCell" key={friend.id}>
+                                    <img
+                                        src={friend.imageurl || "/default.png"}
+                                        alt={`${friend.first} ${friend.last}`}
+                                    />
+                                    <h4>
+                                        {friend.first} {friend.last}
+                                    </h4>
+                                    <button
+                                        onClick={() =>
+                                            handleClick(
+                                                friend.id,
+                                                buttonValues.remove
+                                            )
+                                        }
+                                    >
+                                        Unfriend
+                                    </button>
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
-            <h1>Wannabees</h1>
 
-            <div className="wannabees">
-                {wannabees &&
-                    wannabees.map((wannabee) => {
-                        return (
-                            <div key={wannabee.id}>
-                                <img
-                                    src={wannabee.imageurl || "/default.png"}
-                                    alt={`${wannabee.first} ${wannabee.last}`}
-                                />
-                                <h2>
-                                    {wannabee.first} {wannabee.last}
-                                </h2>
-                                <button
-                                    onClick={() =>
-                                        handleClick(
-                                            wannabee.id,
-                                            "Accept Friend Request"
-                                        )
-                                    }
-                                >
-                                    Accept Friend Request
-                                </button>
-                            </div>
-                        );
-                    })}
-            </div>
+            <div className="fwWrapper">
+                <div className="fwDisplay">
+                    <h1>Wannabees</h1>
+                </div>
+                <div className="wannabees">
+                    {wannabees &&
+                        wannabees.map((wannabee) => {
+                            return (
+                                <div className="userCell" key={wannabee.id}>
+                                    <img
+                                        src={
+                                            wannabee.imageurl || "/default.png"
+                                        }
+                                        alt={`${wannabee.first} ${wannabee.last}`}
+                                    />
+                                    <h4>
+                                        {wannabee.first} {wannabee.last}
+                                    </h4>
+                                    <div className="wannabeesButtons">
+                                        <button
+                                            onClick={() =>
+                                                handleClick(
+                                                    wannabee.id,
+                                                    buttonValues.accept
+                                                )
+                                            }
+                                        >
+                                            ✅
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleClick(
+                                                    wannabee.id,
+                                                    buttonValues.remove
+                                                )
+                                            }
+                                        >
+                                            ✖️
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                </div>
+            </div> 
         </section>
     );
 }

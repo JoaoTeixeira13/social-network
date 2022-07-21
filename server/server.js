@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
 const compression = require("compression");
 const path = require("path");
 const db = require("./db");
@@ -13,6 +14,10 @@ const cryptoRandomString = require("crypto-random-string");
 const multer = require("multer");
 const s3 = require("./s3");
 const uidSafe = require("uid-safe");
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 
 app.use(compression());
 app.use(express.json());
@@ -23,6 +28,16 @@ app.use(
         sameSite: true,
     })
 );
+
+const cookieSessionMiddleware = cookieSession({
+    secret: COOKIE_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+});
+
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
@@ -487,6 +502,8 @@ app.post("/api/requestHandle/:viewedUser", async (req, res) => {
     }
 });
 
+//display friends/friend requests (post request on /api/requestHandle/:viewedUser route)
+
 app.get("/friendsWannabees", async (req, res) => {
     try {
         const results = await db.getFriendsAndWannabees(req.session.userId);
@@ -514,6 +531,61 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+//socket communication
+
+io.on("connection", async (socket) => {
+    try {
+        if (!socket.request.session.userId) {
+            return socket.disconnect(true);
+        }
+
+        const userId = socket.request.session.userId;
+        console.log(
+            `User with id: ${userId} and socket.id ${socket.id} connected`
+        );
+
+        try {
+            const { rows: messages } = await db.newestMessages();
+
+            socket.emit("last-10-messages", {
+                messages,
+            });
+        } catch (err) {
+            console.log("error while fetching first 10 messages", err);
+        }
+
+        try {
+            socket.on("new-message", async (newMsg) => {
+                const { rows: messageQuery } = await db.newMessage(
+                    newMsg,
+                    userId
+                );
+                const { rows: user } = await db.fetchProfile(userId);
+
+                //second query for user data, compose message
+
+                const newMessage = messageQuery[0];
+                const newUser = user[0];
+
+                const composedMessage = {
+                    id: newMessage.id,
+                    first: newUser.first,
+                    imageurl: newUser.imageurl,
+                    last: newUser.last,
+                    message: newMessage.message,
+                    user_id: newMessage.user_id,
+                };
+
+                io.emit("add-new-message", composedMessage);
+            });
+        } catch (err) {
+            console.log("error while inserting new message", err);
+        }
+    } catch (err) {
+        console.log("Error on io connection");
+    }
 });

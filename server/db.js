@@ -163,3 +163,24 @@ module.exports.getFriendsAndWannabees = (loggedUser) => {
         [loggedUser]
     );
 };
+
+// chat messages
+
+module.exports.newestMessages = () => {
+    return db.query(
+        `SELECT chat.user_id, chat.id, chat.message, users.first, users.last, users.imageUrl
+    FROM chat
+    JOIN users ON (user_id = users.id)
+    ORDER BY chat.id DESC   
+    LIMIT 10 `
+    );
+};
+
+module.exports.newMessage = (message, user) => {
+    const q = `INSERT INTO chat(message, user_id)
+     VALUES ($1, $2)
+     RETURNING *
+    `;
+    const param = [message, user];
+    return db.query(q, param);
+};

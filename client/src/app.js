@@ -8,6 +8,7 @@ import Profile from "./profile";
 import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
 import FriendsAndWannabees from "./friends-wannabees";
+import Chat from "./chat";
 
 export default class App extends Component {
     constructor() {
@@ -71,6 +72,9 @@ export default class App extends Component {
                     <nav className="profileHeader">
                         <Logo />
                         <div className="navRight">
+                            <Link to="/chat">
+                                <h2>Chat</h2>
+                            </Link>
                             <Link to="/friends">
                                 <h2>Friends</h2>
                             </Link>
@@ -116,6 +120,9 @@ export default class App extends Component {
                             }
                         />
                     )}
+                    <Route path="/chat">
+                        <Chat />
+                    </Route>
                     <Route path="/find">
                         <FindPeople />
                     </Route>
