@@ -21,20 +21,27 @@ export default function Chat() {
     };
     return (
         <>
-
-            <h1>Welcome to Chat</h1>
+            <h1 className="chatHeader">Welcome to Chat</h1>
 
             <div className="chat-display-container" ref={chatContainerRef}>
                 {messages &&
                     messages.map((message) => {
                         return (
-                            <p key={message.id}>
-                                {message.first} {message.last} says:{" "}
-                                {message.message}
-                            </p>
+                            <div className="chatCell" key={message.id}>
+                                <img
+                                    className="chatIcon"
+                                    src={message.imageurl || "/default.png"}
+                                    alt={`${message.first} ${message.last}`}
+                                />
+                                <p>
+                                    <strong>
+                                        {message.first} {message.last}{" "}
+                                    </strong>
+                                    says: {message.message}
+                                </p>
+                            </div>
                         );
                     })}
-               
             </div>
             <textarea
                 onKeyDown={keyCheck}

@@ -184,3 +184,16 @@ module.exports.newMessage = (message, user) => {
     const param = [message, user];
     return db.query(q, param);
 };
+
+//check who's online
+
+module.exports.onlineUsers = (onlineUsers) => {
+    return db.query(
+        `SELECT id, first, last, imageurl
+    FROM users
+    WHERE id = ANY($1)`,
+        [onlineUsers]
+    );
+};
+
+

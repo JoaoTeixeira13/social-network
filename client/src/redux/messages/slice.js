@@ -1,6 +1,6 @@
 export default function messagesReducer(messages = [], action) {
     if (action.type === "messages/received") {
-        messages = action.payload.messages.reverse();
+        messages = action.payload.messages;
     }
     if (action.type === "messages/new-message") {
         messages = [...messages, action.payload.message];

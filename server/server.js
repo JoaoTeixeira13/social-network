@@ -536,56 +536,81 @@ server.listen(process.env.PORT || 3001, function () {
 });
 
 //socket communication
+let onlineUsers = {};
 
 io.on("connection", async (socket) => {
-    try {
-        if (!socket.request.session.userId) {
-            return socket.disconnect(true);
-        }
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
 
-        const userId = socket.request.session.userId;
-        console.log(
-            `User with id: ${userId} and socket.id ${socket.id} connected`
+    const userId = socket.request.session.userId;
+    onlineUsers[userId] ||= [];
+
+    onlineUsers[userId] = [...onlineUsers[userId], socket.id];
+
+    // console.log("online users are", onlineUsers);
+
+    socket.on("disconnect", () => {
+        console.log("user who disconnected is, ", userId);
+        // delete that user from user onlineUsers
+        console.log("socket id is", socket.id);
+
+        onlineUsers[userId] = onlineUsers[userId].filter(
+            (elem) => elem != socket.id
         );
+        onlineUsers[userId] = onlineUsers[userId].filter((elem) => elem != []);
 
-        try {
-            const { rows: messages } = await db.newestMessages();
-
-            socket.emit("last-10-messages", {
-                messages,
-            });
-        } catch (err) {
-            console.log("error while fetching first 10 messages", err);
+        if (!onlineUsers[userId].length) {
+            console.log("empty array");
+            delete onlineUsers[userId];
         }
+        console.log("online users after filtering", onlineUsers);
 
-        try {
-            socket.on("new-message", async (newMsg) => {
-                const { rows: messageQuery } = await db.newMessage(
-                    newMsg,
-                    userId
-                );
-                const { rows: user } = await db.fetchProfile(userId);
+        // return
+    });
+    console.log("online users after filtering outside", onlineUsers);
 
-                //second query for user data, compose message
+    const onlineQuery = Object.keys(onlineUsers);
+    console.log("online query is", onlineQuery);
 
-                const newMessage = messageQuery[0];
-                const newUser = user[0];
+    try {
 
-                const composedMessage = {
-                    id: newMessage.id,
-                    first: newUser.first,
-                    imageurl: newUser.imageurl,
-                    last: newUser.last,
-                    message: newMessage.message,
-                    user_id: newMessage.user_id,
-                };
-
-                io.emit("add-new-message", composedMessage);
-            });
-        } catch (err) {
-            console.log("error while inserting new message", err);
-        }
+        //socket.on whatever is emited from chat component on useEffect, query to the database inside it 
+        const { rows: results } = await db.onlineUsers(onlineQuery);
+        console.log("results from data base are", results);
     } catch (err) {
-        console.log("Error on io connection");
+        console.log("error while fetching online users", err);
+    }
+
+    try {
+        const { rows: messages } = await db.newestMessages();
+
+        socket.emit("last-10-messages", {
+            messages: messages.reverse(),
+        });
+    } catch (err) {
+        console.log("error while fetching first 10 messages", err);
+    }
+
+    try {
+        socket.on("new-message", async (newMsg) => {
+            const { rows: messageQuery } = await db.newMessage(newMsg, userId);
+            const { rows: user } = await db.fetchProfile(userId);
+
+            //second query for user data, compose message
+
+            const composedMessage = {
+                id: messageQuery[0].id,
+                first: user[0].first,
+                imageurl: user[0].imageurl,
+                last: user[0].last,
+                message: messageQuery[0].message,
+                user_id: messageQuery[0].user_id,
+            };
+
+            io.emit("add-new-message", composedMessage);
+        });
+    } catch (err) {
+        console.log("error while inserting new message", err);
     }
 });
