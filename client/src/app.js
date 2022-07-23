@@ -8,7 +8,7 @@ import Profile from "./profile";
 import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
 import FriendsAndWannabees from "./friends-wannabees";
-import Chat from "./chat";
+import ChatWindow from "./chatWindow";
 
 export default class App extends Component {
     constructor() {
@@ -79,7 +79,7 @@ export default class App extends Component {
                                 <h2>Friends</h2>
                             </Link>
                             <Link to="/find">
-                                <h2>Users</h2>
+                                <h2>Search</h2>
                             </Link>
                             <Link to="/">
                                 <h2>Profile</h2>
@@ -121,7 +121,7 @@ export default class App extends Component {
                         />
                     )}
                     <Route path="/chat">
-                        <Chat />
+                        <ChatWindow />
                     </Route>
                     <Route path="/find">
                         <FindPeople />

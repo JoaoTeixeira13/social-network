@@ -11,6 +11,7 @@ export default function Chat() {
             chatContainerRef.current.scrollHeight -
             chatContainerRef.current.clientHeight;
     }, [messages]);
+
     const keyCheck = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -20,8 +21,8 @@ export default function Chat() {
         }
     };
     return (
-        <>
-            <h1 className="chatHeader">Welcome to Chat</h1>
+        <div className="chatArea">
+            {/* <h1 className="chatHeader">Welcome to Chat</h1> */}
 
             <div className="chat-display-container" ref={chatContainerRef}>
                 {messages &&
@@ -43,10 +44,11 @@ export default function Chat() {
                         );
                     })}
             </div>
+
             <textarea
                 onKeyDown={keyCheck}
                 placeholder="Chime in and type girl"
             ></textarea>
-        </>
+        </div>
     );
 }

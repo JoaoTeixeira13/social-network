@@ -544,43 +544,48 @@ io.on("connection", async (socket) => {
     }
 
     const userId = socket.request.session.userId;
+
+    //keeping track of online users
+
     onlineUsers[userId] ||= [];
 
     onlineUsers[userId] = [...onlineUsers[userId], socket.id];
 
-    // console.log("online users are", onlineUsers);
-
-    socket.on("disconnect", () => {
-        console.log("user who disconnected is, ", userId);
-        // delete that user from user onlineUsers
-        console.log("socket id is", socket.id);
-
-        onlineUsers[userId] = onlineUsers[userId].filter(
-            (elem) => elem != socket.id
-        );
-        onlineUsers[userId] = onlineUsers[userId].filter((elem) => elem != []);
-
-        if (!onlineUsers[userId].length) {
-            console.log("empty array");
-            delete onlineUsers[userId];
-        }
-        console.log("online users after filtering", onlineUsers);
-
-        // return
-    });
-    console.log("online users after filtering outside", onlineUsers);
-
-    const onlineQuery = Object.keys(onlineUsers);
-    console.log("online query is", onlineQuery);
+    const onlineStatus = async () => {
+        const onlineQuery = Object.keys(onlineUsers);
+        const { rows: onlineResults } = await db.onlineUsers(onlineQuery);
+        io.emit("online-users", onlineResults);
+    };
 
     try {
+        socket.on("disconnect", () => {
+            onlineUsers[userId] = onlineUsers[userId].filter(
+                (elem) => elem != socket.id
+            );
+            onlineUsers[userId] = onlineUsers[userId].filter(
+                (elem) => elem != []
+            );
 
-        //socket.on whatever is emited from chat component on useEffect, query to the database inside it 
-        const { rows: results } = await db.onlineUsers(onlineQuery);
-        console.log("results from data base are", results);
+            if (!onlineUsers[userId].length) {
+                console.log("empty array");
+                delete onlineUsers[userId];
+            }
+            onlineStatus();
+        });
     } catch (err) {
         console.log("error while fetching online users", err);
     }
+
+    try {
+        //socket.on whatever is emited from chat component on useEffect, query to the database inside it
+        socket.on("req-online-users", () => {
+            onlineStatus();
+        });
+    } catch (err) {
+        console.log("error while fetching online users", err);
+    }
+
+    // handling global chat messages
 
     try {
         const { rows: messages } = await db.newestMessages();
