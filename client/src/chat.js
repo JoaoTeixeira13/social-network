@@ -22,7 +22,6 @@ export default function Chat() {
     };
     return (
         <div className="chatArea">
-            {/* <h1 className="chatHeader">Welcome to Chat</h1> */}
 
             <div className="chat-display-container" ref={chatContainerRef}>
                 {messages &&
