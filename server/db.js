@@ -196,3 +196,29 @@ module.exports.onlineUsers = (onlineUsers) => {
         [onlineUsers]
     );
 };
+
+// tables must be renamed for the following
+
+module.exports.privateMessages = (loggedUser, viewedUser) => {
+    const q = `SELECT private_chat.id, private_chat.sender_id, private_chat.recipient_id, private_chat.message, private_chat.created_at,
+      sender.first, sender.last, sender.imageUrl
+     FROM private_chat
+     JOIN users AS sender
+     ON (private_chat.sender_id = sender.id)
+     WHERE (private_chat.recipient_id = $1 AND private_chat.sender_id = $2)
+     OR (private_chat.recipient_id = $2 AND private_chat.sender_id = $1)
+     ORDER BY private_chat.id DESC   
+     LIMIT 10 `;
+
+    const param = [loggedUser, viewedUser];
+    return db.query(q, param);
+};
+
+module.exports.newPrivateMessage = (message, sender, recipient) => {
+    const q = `INSERT INTO private_chat(message, sender_id, recipient_id)
+     VALUES ($1, $2, $3)
+     RETURNING *
+    `;
+    const param = [message, sender, recipient];
+    return db.query(q, param);
+};

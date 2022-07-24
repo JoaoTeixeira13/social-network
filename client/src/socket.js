@@ -20,6 +20,8 @@ export const init = (store) => {
         socket.on("online-users", (onlineUsers) => {
             store.dispatch(usersOnline(onlineUsers));
         });
+
+        
     }
 
     return socket;

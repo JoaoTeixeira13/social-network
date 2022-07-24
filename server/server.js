@@ -552,9 +552,13 @@ io.on("connection", async (socket) => {
     onlineUsers[userId] = [...onlineUsers[userId], socket.id];
 
     const onlineStatus = async () => {
-        const onlineQuery = Object.keys(onlineUsers);
-        const { rows: onlineResults } = await db.onlineUsers(onlineQuery);
-        io.emit("online-users", onlineResults);
+        try {
+            const onlineQuery = Object.keys(onlineUsers);
+            const { rows: onlineResults } = await db.onlineUsers(onlineQuery);
+            io.emit("online-users", onlineResults);
+        } catch (err) {
+            console.log("error while fetching online users", err);
+        }
     };
 
     try {
@@ -567,7 +571,6 @@ io.on("connection", async (socket) => {
             );
 
             if (!onlineUsers[userId].length) {
-                console.log("empty array");
                 delete onlineUsers[userId];
             }
             onlineStatus();
@@ -577,7 +580,6 @@ io.on("connection", async (socket) => {
     }
 
     try {
-        //socket.on whatever is emited from chat component on useEffect, query to the database inside it
         socket.on("req-online-users", () => {
             onlineStatus();
         });
@@ -585,37 +587,83 @@ io.on("connection", async (socket) => {
         console.log("error while fetching online users", err);
     }
 
-    // handling global chat messages
-
     try {
-        const { rows: messages } = await db.newestMessages();
+        socket.on("new-message", async (newMsg, recipient) => {
 
-        socket.emit("last-10-messages", {
-            messages: messages.reverse(),
-        });
-    } catch (err) {
-        console.log("error while fetching first 10 messages", err);
-    }
+            if (recipient === 0) {
+                const { rows: messageQuery } = await db.newMessage(
+                    newMsg,
+                    userId
+                );
+                const { rows: user } = await db.fetchProfile(userId);
+                const composedMessage = {
+                    id: messageQuery[0].id,
+                    first: user[0].first,
+                    imageurl: user[0].imageurl,
+                    last: user[0].last,
+                    message: messageQuery[0].message,
+                    user_id: messageQuery[0].user_id,
+                };
 
-    try {
-        socket.on("new-message", async (newMsg) => {
-            const { rows: messageQuery } = await db.newMessage(newMsg, userId);
-            const { rows: user } = await db.fetchProfile(userId);
+                io.emit("add-new-message", composedMessage);
+            } else {
+                const { rows: messageQuery } = await db.newPrivateMessage(
+                    newMsg,
+                    userId,
+                    recipient
+                );
+
+                const { rows: user } = await db.fetchProfile(userId);
+                const composedMessage = {
+                    id: messageQuery[0].id,
+                    first: user[0].first,
+                    imageurl: user[0].imageurl,
+                    last: user[0].last,
+                    message: messageQuery[0].message,
+                    user_id: messageQuery[0].sender_id,
+                };
+
+                socket.emit("add-new-message", composedMessage);
+                onlineUsers[messageQuery[0].recipient_id].map((socket) => {
+                    io.to(socket).emit("add-new-message", composedMessage);
+                });
+            }
 
             //second query for user data, compose message
-
-            const composedMessage = {
-                id: messageQuery[0].id,
-                first: user[0].first,
-                imageurl: user[0].imageurl,
-                last: user[0].last,
-                message: messageQuery[0].message,
-                user_id: messageQuery[0].user_id,
-            };
-
-            io.emit("add-new-message", composedMessage);
         });
     } catch (err) {
         console.log("error while inserting new message", err);
+    }
+
+    //private messages, global chat room
+
+    try {
+        socket.on("fetch-messages", async (viewedUser) => {
+            if (viewedUser === 0) {
+                // handling global chat messages (no user with id 0 exists)
+
+                try {
+                    const { rows: messages } = await db.newestMessages();
+
+                    socket.emit("last-10-messages", {
+                        messages: messages.reverse(),
+                    });
+                } catch (err) {
+                    console.log("error while fetching first 10 messages", err);
+                }
+            } else {
+                //handling private messages
+                const { rows: messages } = await db.privateMessages(
+                    userId,
+                    viewedUser
+                );
+
+                socket.emit("last-10-messages", {
+                    messages: messages.reverse(),
+                });
+            }
+        });
+    } catch (err) {
+        console.log("error while fetching private messages", err);
     }
 });
