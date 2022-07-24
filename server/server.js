@@ -589,44 +589,52 @@ io.on("connection", async (socket) => {
 
     try {
         socket.on("new-message", async (newMsg, recipient) => {
-
             if (recipient === 0) {
-                const { rows: messageQuery } = await db.newMessage(
-                    newMsg,
-                    userId
-                );
-                const { rows: user } = await db.fetchProfile(userId);
-                const composedMessage = {
-                    id: messageQuery[0].id,
-                    first: user[0].first,
-                    imageurl: user[0].imageurl,
-                    last: user[0].last,
-                    message: messageQuery[0].message,
-                    user_id: messageQuery[0].user_id,
-                };
+                try {
+                    const { rows: messageQuery } = await db.newMessage(
+                        newMsg,
+                        userId
+                    );
 
-                io.emit("add-new-message", composedMessage);
+                    const { rows: user } = await db.fetchProfile(userId);
+                    const composedMessage = {
+                        id: messageQuery[0].id,
+                        first: user[0].first,
+                        imageurl: user[0].imageurl,
+                        last: user[0].last,
+                        message: messageQuery[0].message,
+                        user_id: messageQuery[0].user_id,
+                    };
+
+                    io.emit("add-new-message", composedMessage);
+                } catch (err) {
+                    console.log("error while inserting new message", err);
+                }
             } else {
-                const { rows: messageQuery } = await db.newPrivateMessage(
-                    newMsg,
-                    userId,
-                    recipient
-                );
+                try {
+                    const { rows: messageQuery } = await db.newPrivateMessage(
+                        newMsg,
+                        userId,
+                        recipient
+                    );
 
-                const { rows: user } = await db.fetchProfile(userId);
-                const composedMessage = {
-                    id: messageQuery[0].id,
-                    first: user[0].first,
-                    imageurl: user[0].imageurl,
-                    last: user[0].last,
-                    message: messageQuery[0].message,
-                    user_id: messageQuery[0].sender_id,
-                };
+                    const { rows: user } = await db.fetchProfile(userId);
+                    const composedMessage = {
+                        id: messageQuery[0].id,
+                        first: user[0].first,
+                        imageurl: user[0].imageurl,
+                        last: user[0].last,
+                        message: messageQuery[0].message,
+                        user_id: messageQuery[0].sender_id,
+                    };
 
-                socket.emit("add-new-message", composedMessage);
-                onlineUsers[messageQuery[0].recipient_id].map((socket) => {
-                    io.to(socket).emit("add-new-message", composedMessage);
-                });
+                    socket.emit("add-new-message", composedMessage);
+                    onlineUsers[messageQuery[0].recipient_id].map((socket) => {
+                        io.to(socket).emit("add-new-message", composedMessage);
+                    });
+                } catch (err) {
+                    console.log("error while inserting new message", err);
+                }
             }
 
             //second query for user data, compose message

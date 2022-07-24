@@ -44,7 +44,7 @@ CREATE TABLE users (
     recipient_id INT REFERENCES users(id) NOT NULL,
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
-  )
+  );
 
 
    

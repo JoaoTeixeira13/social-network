@@ -3,7 +3,6 @@ import { socket } from "./socket";
 import { useEffect, useRef } from "react";
 
 export default function Chat(props) {
-    console.log("props in chat are,", props);
     const messages = useSelector((state) => state.messages);
     const chatContainerRef = useRef();
     useEffect(() => {
