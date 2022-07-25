@@ -17,6 +17,8 @@ const filterMessages = (channel, messages) => {
 
 export default function Chat(props) {
     const messages = useSelector((state) => state.messages);
+    const onlineUsers = useSelector((state) => state.onlineUsers);
+
     const chatContainerRef = useRef();
     useEffect(() => {
         chatContainerRef.current.scrollTop =
@@ -35,8 +37,23 @@ export default function Chat(props) {
             e.target.value = "";
         }
     };
+
+    const displayRecipient = (channel) => {
+        if (channel <= 0) {
+            return false;
+        }
+        const user = onlineUsers.filter(
+            (onlineUser) => onlineUser.id == channel
+        );
+        const userName = user[0].first;
+        return userName;
+    };
+
     return (
         <div className="chatArea">
+            {(displayRecipient(props.channel) && (
+                <h2> Chatting with {displayRecipient(props.channel)}</h2>
+            )) || <h2>Chat with everyone!</h2>}
             <div className="chat-display-container" ref={chatContainerRef}>
                 {messages &&
                     filterMessages(props.channel, messages).map((message) => {

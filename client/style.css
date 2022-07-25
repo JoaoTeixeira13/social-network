@@ -502,6 +502,7 @@ textarea {
 }
 .onlineUsers .chatCell:hover .chatIcon {
     animation: glowOver 1s linear infinite alternate;
+    border: 2px solid #b81371;
 }
 @keyframes glowOver {
     to {

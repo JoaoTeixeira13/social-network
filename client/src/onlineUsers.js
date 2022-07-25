@@ -16,9 +16,11 @@ export default function OnlineUsers(props) {
     }, []);
 
     return (
-        <>
+        <div className="chatArea">
+            <h2 onClick={() => props.setChannel(0)} className="chatRoomLink">
+                Open Chat Room
+            </h2>
             <div className="onlineUsers">
-                <h2 onClick={() => props.setChannel(0)} className="chatRoomLink">Open Chat Room</h2>
                 <h2> Online users</h2>
                 <div
                     className="chat-display-container"
@@ -47,6 +49,6 @@ export default function OnlineUsers(props) {
                         })}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
