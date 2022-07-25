@@ -8,7 +8,6 @@ import {
 import { Link } from "react-router-dom";
 
 export default function FriendsAndWannabees(props) {
-    console.log("props in friends", props);
     const dispatch = useDispatch();
     const wannabees = useSelector((state) =>
         state.friends.filter((friend) => !friend.accepted)
@@ -24,10 +23,7 @@ export default function FriendsAndWannabees(props) {
                     `/friendsWannabees?id=${props.userId}`
                 );
                 const data = await resp.json();
-                console.log(
-                    "received data from friend and wannabees component is",
-                    data
-                );
+                
 
                 dispatch(receiveFriendsAndWannabees(data.friendsAndPretenders));
             } catch (err) {
@@ -54,7 +50,6 @@ export default function FriendsAndWannabees(props) {
                     body: JSON.stringify({ buttonText: type }),
                 });
                 const data = await resp.json();
-                console.log("received data back is,", data);
 
                 if (!data.error) {
                     if (type === buttonValues.accept) {

@@ -123,7 +123,7 @@ export default class App extends Component {
                         />
                     )}
                     <Route path="/chat">
-                        <ChatWindow />
+                        <ChatWindow userId={this.state.id} />
                     </Route>
                     <Route path="/find">
                         <FindPeople />

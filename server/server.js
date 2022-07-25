@@ -509,7 +509,6 @@ app.get("/friendsWannabees/", async (req, res) => {
     try {
         const results = await db.getFriendsAndWannabees(req.query.id);
         const friendsAndPretenders = results.rows;
-        console.log("results back from fWquery are,", friendsAndPretenders);
 
         res.json({
             success: true,
