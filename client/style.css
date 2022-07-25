@@ -516,6 +516,7 @@ textarea {
 .onlineUsers .chatCell:hover {
     border: 2px solid #adedad;
     border-radius: 5px;
+    color: #993333;
     /* background-color: #993333; */
 }
 

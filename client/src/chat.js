@@ -55,6 +55,13 @@ export default function Chat(props) {
                 <h2> Chatting with {displayRecipient(props.channel)}</h2>
             )) || <h2>Chat with everyone!</h2>}
             <div className="chat-display-container" ref={chatContainerRef}>
+                {messages.length === 0 && (
+                    <h2>
+                        Start the conversation with{" "}
+                        {displayRecipient(props.channel)}, you can type in the
+                        box below.
+                    </h2>
+                )}
                 {messages &&
                     filterMessages(props.channel, messages).map((message) => {
                         return (
