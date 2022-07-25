@@ -18,7 +18,7 @@ export default function Profile(props) {
 
                 <Bio bio={props.bio} setBio={(arg) => props.setBio(arg)} />
             </div>
-            <div className="profileInfo">
+            <div className="profileInfo iconDisplay">
                 {props.id && <Friends id={props.id} />}
             </div>
         </div>

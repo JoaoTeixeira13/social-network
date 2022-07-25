@@ -52,7 +52,7 @@ export default function OtherProfile() {
                         <FriendButton viewedUser={otherUserId} />
                     </div>
 
-                    <div className="profileInfo">
+                    <div className="profileInfo iconDisplay">
                         {otherUserId && <Friends id={otherUserId} />}
                     </div>
                 </div>

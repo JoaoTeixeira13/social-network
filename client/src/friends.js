@@ -24,7 +24,7 @@ export default function Friends(props) {
         })();
     }, []);
     return (
-        <div>
+        <div className="friendWrapper">
             <h1>Friends</h1>
             <div className="friendDisplay">
                 {friends.length === 0 && <h2>No friends yet!</h2>}
@@ -36,9 +36,7 @@ export default function Friends(props) {
                                     src={friend.imageurl || "/default.png"}
                                     alt={`${friend.first} ${friend.last}`}
                                 />
-                                <h4>
-                                    {friend.first} {friend.last}
-                                </h4>
+                                <h4>{friend.first}</h4>
                             </div>
                         );
                     })}
