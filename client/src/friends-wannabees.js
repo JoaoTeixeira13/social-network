@@ -6,7 +6,8 @@ import {
     receiveFriendsAndWannabees,
 } from "./redux/friends/slice";
 
-export default function FriendsAndWannabees() {
+export default function FriendsAndWannabees(props) {
+    console.log("props in friends", props);
     const dispatch = useDispatch();
     const wannabees = useSelector((state) =>
         state.friends.filter((friend) => !friend.accepted)
@@ -18,8 +19,11 @@ export default function FriendsAndWannabees() {
     useEffect(() => {
         (async () => {
             try {
-                const resp = await fetch("/friendsWannabees");
+                const resp = await fetch(
+                    `/friendsWannabees?id=${props.userId}`
+                );
                 const data = await resp.json();
+                console.log("received data from friend and wannabees component is", data);
 
                 dispatch(receiveFriendsAndWannabees(data.friendsAndPretenders));
             } catch (err) {
@@ -139,7 +143,7 @@ export default function FriendsAndWannabees() {
                             );
                         })}
                 </div>
-            </div> 
+            </div>
         </section>
     );
 }

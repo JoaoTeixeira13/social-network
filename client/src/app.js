@@ -28,6 +28,7 @@ export default class App extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 this.setState({
+                    id: data.profile.id,
                     first: data.profile.first,
                     last: data.profile.last,
                     imageUrl: data.profile.imageurl,
@@ -102,6 +103,7 @@ export default class App extends Component {
                     </nav>
                     <Route exact path="/">
                         <Profile
+                            id={this.state.id}
                             first={this.state.first}
                             last={this.state.last}
                             imageUrl={this.state.imageUrl}
@@ -130,7 +132,7 @@ export default class App extends Component {
                         <OtherProfile />
                     </Route>
                     <Route path="/friends">
-                        <FriendsAndWannabees />
+                        <FriendsAndWannabees userId={this.state.id} />
                     </Route>
                 </BrowserRouter>
                 <footer>

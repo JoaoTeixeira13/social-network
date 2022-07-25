@@ -75,7 +75,7 @@ module.exports.uploadProfilePicture = (url, userId) => {
 };
 module.exports.fetchProfile = (id) => {
     return db.query(
-        `SELECT users.first, users.last, users.imageUrl, users.bio
+        `SELECT users.id, users.first, users.last, users.imageUrl, users.bio
     FROM users
     WHERE id = $1
     LIMIT 1`,

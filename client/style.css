@@ -217,7 +217,7 @@ button:hover {
     }
 }
 /* logged in experience: navbar*/
-.profilePicture {
+.friendDisplay img, .profilePicture {
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -449,6 +449,12 @@ textarea {
     margin-top: 50px;
 }
 
+/* friend display  */
+
+.friendDisplay img {
+
+}
+
 /* chat */
 
 .chatCell {
@@ -502,11 +508,11 @@ textarea {
 }
 .onlineUsers .chatCell:hover .chatIcon {
     animation: glowOver 1s linear infinite alternate;
-    border: 2px solid #b81371;
+    border: 2px solid #993333;
 }
 @keyframes glowOver {
     to {
-        box-shadow: 0px 0px 6px 6px #b81371;
+        box-shadow: 0px 0px 6px 6px #993333;
     }
 }
 .onlineUsers .chatCell {

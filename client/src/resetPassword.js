@@ -75,7 +75,7 @@ export default class ResetPassword extends Component {
     determineViewToRender() {
         if (this.state.view === 1) {
             return (
-                <div className="form">
+                <div className="form" key={"view1"}>
                     <p>
                         Please enter the email address with which you
                         registered.
@@ -93,7 +93,7 @@ export default class ResetPassword extends Component {
             );
         } else if (this.state.view === 2) {
             return (
-                <div>
+                <div key={"view2"}>
                     <p>
                         Please input the code you received via email and your
                         new password.
@@ -115,7 +115,7 @@ export default class ResetPassword extends Component {
             );
         } else if (this.state.view === 3) {
             return (
-                <div>
+                <div key={"view1"}>
                     <p>
                         You have successfully updated your password! You may
                         proceed to login.

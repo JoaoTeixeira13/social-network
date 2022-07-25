@@ -1,5 +1,6 @@
 import ProfilePicture from "./profilePicture";
 import Bio from "./bio";
+import Friends from "./friends";
 
 export default function Profile(props) {
     return (
@@ -15,10 +16,10 @@ export default function Profile(props) {
             <div className="profileInfo">
                 <h1> Welcome to your profile, {props.first}!</h1>
 
-                <Bio
-                    bio={props.bio}
-                    setBio={(arg) => props.setBio(arg)}
-                />
+                <Bio bio={props.bio} setBio={(arg) => props.setBio(arg)} />
+            </div>
+            <div className="profileInfo">
+                {props.id && <Friends id={props.id} />}
             </div>
         </div>
     );

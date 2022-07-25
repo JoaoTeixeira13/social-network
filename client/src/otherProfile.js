@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import FriendButton from "./friendButton";
 import NotFound from "./404notFound";
+import Friends from "./friends";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
@@ -49,6 +50,10 @@ export default function OtherProfile() {
                         </h2>
                         <h3>{user.bio}</h3>
                         <FriendButton viewedUser={otherUserId} />
+                    </div>
+
+                    <div className="profileInfo">
+                        {otherUserId && <Friends id={otherUserId} />}
                     </div>
                 </div>
             )}
