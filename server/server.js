@@ -626,6 +626,7 @@ io.on("connection", async (socket) => {
                         last: user[0].last,
                         message: messageQuery[0].message,
                         user_id: messageQuery[0].sender_id,
+                        recipient_id: recipient,
                     };
 
                     socket.emit("add-new-message", composedMessage);

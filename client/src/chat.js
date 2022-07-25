@@ -2,6 +2,19 @@ import { useSelector } from "react-redux";
 import { socket } from "./socket";
 import { useEffect, useRef } from "react";
 
+const filterMessages = (channel, messages) => {
+    if (channel <= 0) {
+        return messages;
+    }
+    const filtered = messages.filter(
+        (message) =>
+            message.sender_id == channel ||
+            message.recipient_id == channel ||
+            message.user_id == channel
+    );
+    return filtered;
+};
+
 export default function Chat(props) {
     const messages = useSelector((state) => state.messages);
     const chatContainerRef = useRef();
@@ -26,7 +39,7 @@ export default function Chat(props) {
         <div className="chatArea">
             <div className="chat-display-container" ref={chatContainerRef}>
                 {messages &&
-                    messages.map((message) => {
+                    filterMessages(props.channel, messages).map((message) => {
                         return (
                             <div className="chatCell" key={message.id}>
                                 <div className="imgContainer">
