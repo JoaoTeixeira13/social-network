@@ -299,24 +299,16 @@ app.post(
 // update biography route
 
 app.post("/updateBio", (req, res) => {
-    if (req.body.bio) {
-        db.updateBio(req.body.bio, req.session.userId)
-            .then((result) => {
-                res.json({
-                    success: true,
-                    payload: result.rows[0],
-                });
-            })
-            .catch((err) => {
-                console.log("error is ", err);
+    db.updateBio(req.body.bio, req.session.userId)
+        .then((result) => {
+            res.json({
+                success: true,
+                payload: result.rows[0],
             });
-    } else {
-        console.log("error in updting user's bio ", err);
-        res.json({
-            success: false,
-            error: true,
+        })
+        .catch((err) => {
+            console.log("error is ", err);
         });
-    }
 });
 
 // find users/ newest users to register route
@@ -505,7 +497,6 @@ app.post("/api/requestHandle/:viewedUser", async (req, res) => {
 //display friends/friend requests (post request on /api/requestHandle/:viewedUser route)
 
 app.get("/friendsWannabees/", async (req, res) => {
-    console.log("requested parameters are, ", req.query);
     try {
         const results = await db.getFriendsAndWannabees(req.query.id);
         const friendsAndPretenders = results.rows;

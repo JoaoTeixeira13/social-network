@@ -38,7 +38,7 @@ export default function Chat(props) {
         //prevent messages to oneself from being duplicated
         const hash = {};
 
-        const selfFiltered = filtered.filter(({ id, message }) => {
+        const refiltered = filtered.filter(({ id, message }) => {
             const key = `${id}${message}`;
 
             if (key in hash) {
@@ -49,7 +49,7 @@ export default function Chat(props) {
 
             return true;
         });
-        return selfFiltered;
+        return refiltered;
     };
 
     const displayRecipient = (channel) => {
