@@ -16,9 +16,9 @@ This is a single-page application website made with React that allows users to j
     -   Link that will enable the user to log out.
 -   In the personal profile, the user can upload a profile picture as well as add a small biography. User's current friends are displayed in a component.
 -   In the live chat component, users have different options:
-   - Talk to everyone, in a common chat room.
-   - Talk to a specific user on a channel only available for the two parties. 
-   - Use their own channel as a note keeper space. 
+    - Talk to everyone, in a common chat room.
+    - Talk to a specific user on a channel only available for the two parties. 
+    - Use their own channel as a note keeper space. 
 
 
 ##  Technology
