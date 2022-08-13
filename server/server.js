@@ -433,7 +433,6 @@ app.get("/api/relation/:viewedUser", async (req, res) => {
 //handling friendship button
 
 app.post("/api/requestHandle/:viewedUser", async (req, res) => {
-    console.log("requested body is", req.body);
 
     if (req.body.buttonText === buttonValues.add) {
         try {

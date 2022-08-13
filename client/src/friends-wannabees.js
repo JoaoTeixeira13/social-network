@@ -5,7 +5,6 @@ import {
     makeFriend,
     receiveFriendsAndWannabees,
 } from "./redux/friends/slice";
-import { Link } from "react-router-dom";
 
 export default function FriendsAndWannabees(props) {
     const dispatch = useDispatch();

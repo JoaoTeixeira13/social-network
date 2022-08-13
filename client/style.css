@@ -182,7 +182,7 @@ button:hover {
         background-position: -20px 0%;
     }
     to {
-        background-position: -600% 0;
+        background-position: -1200% 0;
     }
 }
 
@@ -355,7 +355,7 @@ label {
     margin-top: 50px;
 }
 textarea {
-    width: 600px;
+    width: 400px;
     height: 150px;
 }
 .bioButtons {
